@@ -1,0 +1,41 @@
+---
+description: K-Lab UI styling, tokens, RTL, components, and accessibility standards
+globs: "**/*.{tsx,css}"
+alwaysApply: false
+---
+
+# UI guidelines (K-Lab SSO Shell)
+
+Follow [docs/ui-guidelines.md](docs/ui-guidelines.md) for the full reference. Apply when editing views, components, or styles.
+
+## Styling & tokens
+
+- Prefer **Tailwind utility classes** over inline styles, custom CSS, or dynamic class strings unless technically required.
+- Use **`@k-lab/components`** defaults; avoid overriding component styles unless design requires it.
+- Use **semantic tokens** from `app/globals.css` (`background`, `foreground`, `muted`, `border`, `success`, `warning`, `destructive`, etc.) — no hard-coded hex, radii, or shadows.
+
+## Spacing & RTL
+
+- Use Tailwind’s **4px spacing scale** (`gap-4`, `p-2`, `px-6`, `py-8`); avoid arbitrary spacing unless layout demands it.
+- Use **logical** direction: `start`/`end`, `ms-*`/`me-*`, `ps-*`/`pe-*`, `text-start`/`text-end` — not `left`/`right`, `ml-*`/`mr-*`, `pl-*`/`pr-*`, `text-left`/`text-right` unless intentionally fixed-direction.
+
+## Components & layout
+
+- Prefer **`@k-lab/components`** before new local components; compose instead of duplicating with minor tweaks.
+- Consistent page structure (header, actions, filters, content); responsive **flex/grid**; test with sidebar open/closed — use **container queries** when width depends on shell chrome, not only viewport.
+
+## States, forms, tables
+
+- Data views: **loading, empty, error, success** — skeletons for cards/charts; spinners for heavy tables.
+- Forms: **`FloatingLabelInput`** over raw HTML or plain `Input`; clear required indicators and actionable errors.
+- Tables: shared **DataTable** patterns; filters in accordions; consistent loading/empty/error.
+
+## Accessibility, icons, copy
+
+- Semantic HTML; keyboard-accessible controls; don’t rely on color alone; ARIA/labels on icon-only buttons, dialogs, nav.
+- **Lucide** icons at consistent sizes; support content, not decoration.
+- Clear user-facing copy; no backend jargon; action-oriented button labels.
+
+## Code quality in UI
+
+- Readable JSX; shallow conditionals; extract repeated UI; keep presentation separate from data/business logic.

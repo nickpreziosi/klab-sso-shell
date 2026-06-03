@@ -1,0 +1,464 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .avatar-trigger-btn:hover {
+    background-color: hsl(var(--accent-brand) / 0.1) !important;
+  }
+
+  /* Periods multi-select: shrink to content, grow with badges up to max width */
+  .periods-multi-select-root > .relative.w-full {
+    width: fit-content !important;
+    max-width: 100%;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-brand {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--accent-brand) / 0.25) transparent;
+  }
+  .scrollbar-brand::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .scrollbar-brand::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-brand::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--accent-brand) / 0.25);
+    border-radius: 9999px;
+  }
+  .scrollbar-brand::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--accent-brand) / 0.45);
+  }
+  .scrollbar-brand::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /**
+   * Credit-lines map control tooltips — attribute beats Radix/Tailwind merge order.
+   * Blur applies to normal DOM behind the tooltip (sidebar/page), not the WebGL canvas.
+   */
+  [data-krisk-glass-tooltip] {
+    isolation: isolate;
+    backdrop-filter: blur(18px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(190%) !important;
+    background-color: hsl(var(--background) / 0.26) !important;
+    border-top: 1px solid hsl(var(--foreground) / calc(var(--glass-border-opacity) * 1.5));
+    border-inline-end: 1px solid hsl(var(--foreground) / var(--glass-border-opacity));
+    border-bottom: 1px solid hsl(var(--foreground) / calc(var(--glass-border-opacity) * 0.5));
+    border-inline-start: 1px solid hsl(var(--foreground) / var(--glass-border-opacity));
+    box-shadow:
+      var(--glass-shadow),
+      inset 0 1px 1px 0 rgba(255, 255, 255, var(--glass-inner-highlight-opacity));
+  }
+
+  .dark [data-krisk-glass-tooltip] {
+    background-color: hsl(var(--background) / 0.34) !important;
+    backdrop-filter: blur(20px) saturate(185%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(185%) !important;
+  }
+
+  .glass-morphism {
+    will-change: backdrop-filter;
+    transform: translateZ(0);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    background-color: hsl(var(--background) / var(--glass-background-opacity)) !important;
+    border-top: 1px solid hsl(var(--foreground) / calc(var(--glass-border-opacity) * 1.5));
+    border-inline-end: 1px solid hsl(var(--foreground) / var(--glass-border-opacity));
+    border-bottom: 1px solid hsl(var(--foreground) / calc(var(--glass-border-opacity) * 0.5));
+    border-inline-start: 1px solid hsl(var(--foreground) / var(--glass-border-opacity));
+    box-shadow:
+      var(--glass-shadow),
+      inset 0 1px 1px 0 rgba(255, 255, 255, var(--glass-inner-highlight-opacity));
+  }
+
+  .glass-morphism-overlay {
+    will-change: backdrop-filter, transform;
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    background-color: hsl(var(--background) / var(--glass-background-opacity-overlay)) !important;
+    border-top: 1px solid hsl(var(--foreground) / calc(var(--glass-border-opacity) * 1.5));
+    border-inline-end: 1px solid hsl(var(--foreground) / var(--glass-border-opacity));
+    border-bottom: 1px solid hsl(var(--foreground) / calc(var(--glass-border-opacity) * 0.5));
+    border-inline-start: 1px solid hsl(var(--foreground) / var(--glass-border-opacity));
+    box-shadow:
+      var(--glass-shadow),
+      inset 0 1px 1px 0 rgba(255, 255, 255, var(--glass-inner-highlight-opacity));
+  }
+
+  .glass-navbar {
+    will-change: backdrop-filter;
+    transform: translateZ(0);
+    background-color: hsl(var(--background) / var(--glass-background-opacity)) !important;
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    border-top-color: hsl(var(--foreground) / calc(var(--glass-border-opacity) * 1.5)) !important;
+    border-inline-end-color: hsl(var(--foreground) / var(--glass-border-opacity)) !important;
+    border-bottom-color: hsl(
+      var(--foreground) / calc(var(--glass-border-opacity) * 0.5)
+    ) !important;
+    border-inline-start-color: hsl(var(--foreground) / var(--glass-border-opacity)) !important;
+  }
+
+  .glass-item:hover,
+  .glass-item:focus,
+  .glass-item[data-state="open"],
+  .glass-item[data-highlighted] {
+    background-color: hsl(var(--accent) / 0.5) !important;
+  }
+
+  .dark .glass-item-overlay:hover,
+  .dark .glass-item-overlay:focus,
+  .dark .glass-item-overlay[data-state="open"],
+  .dark .glass-item-overlay[data-highlighted] {
+    background-color: hsl(var(--accent) / 0.5) !important;
+  }
+
+  body[data-mobile-sidebar-open] [data-radix-select-item],
+  body[data-mobile-sidebar-open] [data-radix-dropdown-menu-item],
+  body[data-mobile-sidebar-open] [role="option"],
+  body[data-mobile-sidebar-open] [role="menuitem"] {
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .glass-morphism,
+    .glass-morphism-overlay {
+      background-color: hsl(var(--background) / 0.95) !important;
+    }
+
+    [data-krisk-glass-tooltip] {
+      background-color: hsl(var(--background) / 0.94) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    .credit-lines-map-hover-panel {
+      background-image: none !important;
+      background-color: hsl(var(--background) / 0.94) !important;
+    }
+
+    .glass-navbar {
+      background-color: hsl(var(--background) / 0.95) !important;
+    }
+  }
+
+  /**
+   * Credit lines map — MapLibre (`CreditLinesMap.tsx`). Attribution hidden per product;
+   * ensure basemap/OSM terms are honored elsewhere if required.
+   */
+  .credit-lines-map-shell .maplibregl-ctrl-attrib,
+  .credit-lines-map-shell .maplibregl-ctrl-logo {
+    display: none !important;
+  }
+
+  /**
+   * State hover panel — plain DOM over the map (not MapLibre Popup).
+   * WebGL still won’t blur; gradients mimic `.glass-morphism` without fighting MapLibre’s wrapper.
+   */
+  .credit-lines-map-hover-panel {
+    border-radius: var(--app-radius);
+    padding: 0;
+    color: hsl(var(--popover-foreground));
+    background-color: transparent !important;
+    background-image:
+      linear-gradient(
+        155deg,
+        hsl(var(--background) / 0.91) 0%,
+        hsl(var(--background) / 0.68) 52%,
+        hsl(var(--secondary) / 0.45) 100%
+      ),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.18) 0%, transparent 42%);
+    border-top: 1px solid hsl(var(--foreground) / calc(var(--glass-border-opacity) * 1.5));
+    border-inline-end: 1px solid hsl(var(--foreground) / var(--glass-border-opacity));
+    border-bottom: 1px solid hsl(var(--foreground) / calc(var(--glass-border-opacity) * 0.5));
+    border-inline-start: 1px solid hsl(var(--foreground) / var(--glass-border-opacity));
+    box-shadow:
+      var(--glass-shadow),
+      inset 0 1px 1px 0 rgba(255, 255, 255, var(--glass-inner-highlight-opacity));
+  }
+
+  .dark .credit-lines-map-hover-panel {
+    background-image:
+      linear-gradient(
+        155deg,
+        hsl(var(--background) / 0.88) 0%,
+        hsl(var(--background) / 0.58) 55%,
+        hsl(var(--secondary) / 0.38) 100%
+      ),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 0%, transparent 45%);
+  }
+}
+
+html {
+  overscroll-behavior: none;
+}
+
+.h-screen-dvh {
+  height: 100vh;
+}
+@supports (height: 100dvh) {
+  .h-screen-dvh {
+    height: 100dvh;
+  }
+}
+
+.min-h-screen-dvh {
+  min-height: 100vh;
+}
+@supports (min-height: 100dvh) {
+  .min-h-screen-dvh {
+    min-height: 100dvh;
+  }
+}
+
+/* SSO shell iframe embed: document grows; shell scrolls iframe + footer. */
+html:has(#shell-embed-root),
+html:has(#shell-embed-root) body {
+  height: auto;
+  overflow: visible;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: hsl(var(--background));
+}
+
+html.auth-page,
+body.auth-page,
+main.auth-page {
+  background-color: white !important;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@layer base {
+  :root {
+    --radius: 8px;
+    --app-radius: 8px;
+
+    --glass-blur: 8px;
+    --glass-background-opacity: 0.6;
+    --glass-background-opacity-overlay: 0.4;
+    --glass-border-opacity: 0.2;
+    --glass-saturation: 180%;
+    --glass-inner-highlight-opacity: 0.1;
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  :root {
+    --base-hue: 0;
+    --base-saturation: 0%;
+    --base-lightness: 0%;
+    --base: var(--base-hue) var(--base-saturation) var(--base-lightness);
+
+    --accent-brand-h: 23;
+    --accent-brand-s: 90%;
+    --accent-brand-l: 54%;
+    --accent-brand: var(--accent-brand-h) var(--accent-brand-s) var(--accent-brand-l);
+    --call-action: var(--accent-brand);
+
+    --chart-orange: hsl(var(--accent-brand));
+    --chart-blue: #5e8db1;
+    --chart-neutral-a: hsl(215 18% 88%);
+    --chart-neutral-b: hsl(215 16% 62%);
+    --chart-neutral-c: hsl(215 18% 44%);
+
+    --background: 0 0% 100%;
+    --foreground: var(--base);
+    --surface: var(--background);
+    --primary-foreground: 0 0% 98%;
+    --secondary: var(--base-hue) var(--base-saturation) 96%;
+    --muted: var(--base-hue) var(--base-saturation) 34%;
+    --input-placeholder: var(--base-hue) var(--base-saturation) 28%;
+    --accent: var(--base-hue) var(--base-saturation) 92%;
+    --border: var(--base-hue) var(--base-saturation) 85%;
+    --ring: var(--foreground);
+    --sidebar-bg: var(--base-hue) var(--base-saturation) 98%;
+    --sidebar-accent: var(--base-hue) var(--base-saturation) 94%;
+
+    --status-text: 0 0% 98%;
+    --success: 141.1 71.4% 55%;
+    --success-foreground: 0 0% 0%;
+    --destructive: 0 80% 66%;
+    --destructive-foreground: 0 0% 0%;
+    --warning: 51.08 100% 56.47%;
+  }
+
+  .dark {
+    --base-hue: 225;
+    --base-saturation: 20%;
+    --base-lightness: 6%;
+    --base: var(--base-hue) var(--base-saturation) var(--base-lightness);
+
+    --accent-brand-h: 23;
+    --accent-brand-s: 90%;
+    --accent-brand-l: 54%;
+    --accent-brand: var(--accent-brand-h) var(--accent-brand-s) var(--accent-brand-l);
+
+    --chart-orange: hsl(var(--accent-brand));
+    --chart-blue: #5e8db1;
+    --chart-neutral-a: hsl(215 11% 72%);
+    --chart-neutral-b: hsl(215 11% 54%);
+    --chart-neutral-c: hsl(215 11% 38%);
+
+    --background: var(--base);
+    --foreground: 0 0% 98%;
+    --surface: var(--base-hue) var(--base-saturation) 8%;
+    --primary-foreground: var(--base);
+    --secondary: var(--base-hue) var(--base-saturation) 12%;
+    --muted: var(--base-hue) var(--base-saturation) 82%;
+    --input-placeholder: var(--base-hue) var(--base-saturation) 82%;
+    --accent: var(--base-hue) var(--base-saturation) 18%;
+    --border: var(--base-hue) var(--base-saturation) 24%;
+    --ring: var(--foreground);
+    --sidebar-bg: var(--surface);
+    --sidebar-accent: var(--base-hue) var(--base-saturation) 14%;
+
+    --status-text: 0 0% 98%;
+    --success: 141.1 71.4% 55%;
+    --success-foreground: 0 0% 0%;
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 0%;
+    --warning: 51.08 100% 56.47%;
+
+    --glass-blur: 12px;
+    --glass-background-opacity: 0.5;
+    --glass-background-opacity-overlay: 0.35;
+    --glass-inner-highlight-opacity: 0.15;
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  body {
+    font-family: var(--font-sora), sans-serif;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  a:focus-visible,
+  [tabindex]:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid hsl(var(--foreground));
+    outline-offset: 2px;
+    border-radius: var(--app-radius);
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+  71%,
+  99% {
+    opacity: 0;
+  }
+}
+
+body a,
+body button,
+body input,
+body select,
+body textarea {
+  border-radius: var(--app-radius) !important;
+}
+
+html {
+  transition-property: background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+body {
+  transition-property: background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+html.no-transitions,
+html.no-transitions *:not([data-allow-transition]):not([data-allow-transition] *),
+html.no-transitions *:not([data-allow-transition]):not([data-allow-transition] *)::before,
+html.no-transitions *:not([data-allow-transition]):not([data-allow-transition] *)::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+
+input[type="search"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+[class*="bg-success/20"][class*="text-success"],
+[class*="bg-warning/20"][class*="text-warning"],
+[class*="bg-destructive/20"][class*="text-destructive"],
+[class*="bg-accent-brand/20"][class*="text-accent-brand"] {
+  color: hsl(var(--foreground)) !important;
+}
+
+.text-success-foreground,
+.text-destructive-foreground {
+  color: black;
+}
+
+.relative.w-full[data-floating-label-filled]:not(:focus-within) label.floating-label-input-label,
+.relative.w-full:has(input:-webkit-autofill):not(:focus-within) label.floating-label-input-label,
+.relative.w-full:has(input:-moz-autofill):not(:focus-within) label.floating-label-input-label,
+.relative.w-full:has(input:autofill):not(:focus-within) label.floating-label-input-label {
+  inset-block-start: 0.75rem !important;
+  top: 0 !important;
+  transform: translateY(-50%) !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  line-height: 1rem !important;
+  opacity: 1 !important;
+  background-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+}

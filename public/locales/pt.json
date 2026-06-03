@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "{{product}}",
+    "title": "Shell de aplicativo de login único",
+    "description": "Shell de aplicativo de login único para a suite K-Lab."
+  },
+  "nav": {
+    "languageLabel": "Idioma",
+    "homeLink": "Início do {{product}}",
+    "closeSidebar": "Fechar barra lateral",
+    "openSidebar": "Abrir barra lateral",
+    "account": "Conta",
+    "myAccount": "Minha conta",
+    "menuTitle": "Menu de navegação",
+    "closeMenu": "Fechar menu",
+    "navigation": "Navegação",
+    "settings": "Configurações",
+    "logout": "Sair"
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema"
+  },
+  "preferences": {
+    "toolbarAria": "Preferências",
+    "themeTooltipWithValue": "Tema: {{theme}}",
+    "languageTooltip": "Idioma"
+  },
+  "i18n": {
+    "noLanguageFound": "Nenhum idioma encontrado.",
+    "keyboardHint": "Digite para filtrar. Use as setas para navegar na lista, Enter para selecionar e Escape para fechar.",
+    "searchLanguagesPlaceholder": "Pesquisar idiomas…"
+  },
+  "shell": {
+    "copyright": "© {{year}} K Lab AI Holdings Inc. Todos os direitos reservados.",
+    "website": "k-lab.ai",
+    "legal": "Legal",
+    "feedback": "Feedback",
+    "support": "Suporte",
+    "utilityLinksNavLabel": "Site, legal, feedback e suporte",
+    "socialNavLabel": "K-Lab nas redes sociais",
+    "socialLinkedIn": "K-Lab no LinkedIn",
+    "socialX": "K-Lab no X",
+    "socialInstagram": "K-Lab no Instagram",
+    "socialTiktok": "K-Lab no TikTok",
+    "socialYoutube": "K-Lab no YouTube",
+    "feedbackModalTitle": "Enviar feedback",
+    "feedbackModalDescription": "Avalie sua experiência e compartilhe comentários.",
+    "feedbackRatingLabel": "Como você avaliaria sua experiência?",
+    "feedbackRatingGroupAria": "Avaliação da experiência de 1 a 5",
+    "feedbackRatingSummary": "{{score}} de {{max}}",
+    "feedbackRatingLevel1": "Muito insatisfeito",
+    "feedbackRatingLevel2": "Insatisfeito",
+    "feedbackRatingLevel3": "Neutro",
+    "feedbackRatingLevel4": "Satisfeito",
+    "feedbackRatingLevel5": "Muito satisfeito",
+    "feedbackCommentLabel": "Comentários",
+    "feedbackCommentPlaceholder": "Conte o que funcionou bem ou o que podemos melhorar.",
+    "feedbackSubmit": "Enviar feedback",
+    "feedbackSubmitting": "Enviando",
+    "feedbackCancel": "Cancelar",
+    "feedbackSuccessToast": "Obrigado — seu feedback foi enviado."
+  }
+}

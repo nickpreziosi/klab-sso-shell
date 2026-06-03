@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "{{product}}",
+    "title": "واجهة تطبيق تسجيل الدخول الموحد",
+    "description": "واجهة تطبيق تسجيل الدخول الموحد لمجموعة K-Lab."
+  },
+  "nav": {
+    "languageLabel": "اللغة",
+    "homeLink": "الصفحة الرئيسية لـ {{product}}",
+    "closeSidebar": "إغلاق الشريط الجانبي",
+    "openSidebar": "فتح الشريط الجانبي",
+    "account": "الحساب",
+    "myAccount": "حسابي",
+    "menuTitle": "قائمة التنقل",
+    "closeMenu": "إغلاق القائمة",
+    "navigation": "التنقل",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج"
+  },
+  "theme": {
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام"
+  },
+  "preferences": {
+    "toolbarAria": "التفضيلات",
+    "themeTooltipWithValue": "المظهر: {{theme}}",
+    "languageTooltip": "اللغة"
+  },
+  "i18n": {
+    "noLanguageFound": "لم يتم العثور على لغة.",
+    "keyboardHint": "اكتب للتصفية. استخدم مفاتيح الأسهم للتنقل في القائمة، وEnter للاختيار، وEscape للإغلاق.",
+    "searchLanguagesPlaceholder": "البحث عن اللغات…"
+  },
+  "shell": {
+    "copyright": "© {{year}} K Lab AI Holdings Inc. جميع الحقوق محفوظة.",
+    "website": "k-lab.ai",
+    "legal": "قانوني",
+    "feedback": "ملاحظات",
+    "support": "الدعم",
+    "utilityLinksNavLabel": "الموقع والقانوني والملاحظات والدعم",
+    "socialNavLabel": "K-Lab على وسائل التواصل",
+    "socialLinkedIn": "K-Lab على LinkedIn",
+    "socialX": "K-Lab على X",
+    "socialInstagram": "K-Lab على Instagram",
+    "socialTiktok": "K-Lab على TikTok",
+    "socialYoutube": "K-Lab على YouTube",
+    "feedbackModalTitle": "إرسال ملاحظات",
+    "feedbackModalDescription": "قيّم تجربتك وشارك أي تعليقات.",
+    "feedbackRatingLabel": "كيف تقيّم تجربتك؟",
+    "feedbackRatingGroupAria": "تقييم التجربة من 1 إلى 5",
+    "feedbackRatingSummary": "{{score}} من {{max}}",
+    "feedbackRatingLevel1": "غير راضٍ جداً",
+    "feedbackRatingLevel2": "غير راضٍ",
+    "feedbackRatingLevel3": "محايد",
+    "feedbackRatingLevel4": "راضٍ",
+    "feedbackRatingLevel5": "راضٍ جداً",
+    "feedbackCommentLabel": "التعليقات",
+    "feedbackCommentPlaceholder": "أخبرنا بما نجح أو ما يمكننا تحسينه.",
+    "feedbackSubmit": "إرسال الملاحظات",
+    "feedbackSubmitting": "جارٍ الإرسال",
+    "feedbackCancel": "إلغاء",
+    "feedbackSuccessToast": "شكراً — تم إرسال ملاحظاتك."
+  }
+}

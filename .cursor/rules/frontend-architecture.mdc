@@ -1,0 +1,46 @@
+---
+description: Clean Architecture layout for app, ui, and contexts layers
+alwaysApply: true
+---
+
+# Frontend architecture (K-Lab SSO Shell)
+
+Follow [docs/architecture.md](docs/architecture.md) for full guidelines. Non-negotiables:
+
+## `app/` — thin routes only
+
+- `page.tsx` files **only** import and render a View from `ui/{context}/views/`.
+- No inline UI markup or business logic in pages.
+- Layout wiring: `app/layout.tsx` + `app/providers.tsx`; shell chrome lives in `ui/shell/containers/`.
+
+## `ui/` — presentation by context
+
+| Kind | Path |
+|------|------|
+| View | `ui/{context}/views/{Name}/{Name}View.tsx` |
+| Container | `ui/{context}/containers/{Name}/` |
+| Feature component | `ui/{context}/components/` |
+| Cross-feature component | `ui/shared/components/` |
+| Provider (React context) | `ui/{context}/providers/` or `ui/shared/providers/` |
+| Hook | `ui/{context}/hooks/use{Feature}.ts` |
+
+Shell: `ui/shell/`. Auth & login: `ui/user-management/`. Shared chrome: `ui/shared/`.
+
+## `contexts/` — business logic only
+
+- Domain: `contexts/{context}/domain/`
+- Application services: `contexts/{context}/application/{entity}.service.ts` → return `Result<T>` when adding new services
+- Infrastructure: `contexts/{context}/infrastructure/`
+- **No React** in `contexts/`. No UI imports from `contexts/`.
+
+## Shell-specific
+
+- `config/` — app registry, dashboard copy, auth brand config (static, not DI)
+- `lib/` — navigation resolution, presence session, krisk dev proxy
+
+## When adding features
+
+1. Thin page in `app/`
+2. View composes containers/components
+3. Hook calls application service (prefer DI container when registered; facade OK for auth until then)
+4. New domain logic stays under `contexts/{context}/`, not in views

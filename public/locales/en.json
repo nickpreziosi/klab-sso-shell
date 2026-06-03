@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "{{product}}",
+    "title": "Single sign-on application shell",
+    "description": "Single sign-on application shell for the K-Lab suite."
+  },
+  "nav": {
+    "languageLabel": "Language",
+    "homeLink": "{{product}} home",
+    "closeSidebar": "Close sidebar",
+    "openSidebar": "Open sidebar",
+    "account": "Account",
+    "myAccount": "My Account",
+    "menuTitle": "Navigation Menu",
+    "closeMenu": "Close menu",
+    "navigation": "Navigation",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "preferences": {
+    "toolbarAria": "Preferences",
+    "themeTooltipWithValue": "Theme: {{theme}}",
+    "languageTooltip": "Language"
+  },
+  "i18n": {
+    "noLanguageFound": "No language found.",
+    "keyboardHint": "Type to filter. Use arrow keys to move through the list, Enter to select, Escape to close.",
+    "searchLanguagesPlaceholder": "Search languages…"
+  },
+  "shell": {
+    "copyright": "© {{year}} K Lab AI Holdings Inc. All rights reserved.",
+    "website": "k-lab.ai",
+    "legal": "Legal",
+    "feedback": "Feedback",
+    "support": "Support",
+    "utilityLinksNavLabel": "Website, legal, feedback, and support",
+    "socialNavLabel": "K-Lab on social media",
+    "socialLinkedIn": "K-Lab on LinkedIn",
+    "socialX": "K-Lab on X",
+    "socialInstagram": "K-Lab on Instagram",
+    "socialTiktok": "K-Lab on TikTok",
+    "socialYoutube": "K-Lab on YouTube",
+    "feedbackModalTitle": "Send feedback",
+    "feedbackModalDescription": "Rate your experience and share any comments.",
+    "feedbackRatingLabel": "How would you rate your experience?",
+    "feedbackRatingGroupAria": "Experience rating from 1 to 5",
+    "feedbackRatingSummary": "{{score}} of {{max}}",
+    "feedbackRatingLevel1": "Very dissatisfied",
+    "feedbackRatingLevel2": "Dissatisfied",
+    "feedbackRatingLevel3": "Neutral",
+    "feedbackRatingLevel4": "Satisfied",
+    "feedbackRatingLevel5": "Very satisfied",
+    "feedbackCommentLabel": "Comments",
+    "feedbackCommentPlaceholder": "Tell us what worked well or what we could improve.",
+    "feedbackSubmit": "Submit feedback",
+    "feedbackSubmitting": "Submitting",
+    "feedbackCancel": "Cancel",
+    "feedbackSuccessToast": "Thanks — your feedback was submitted."
+  }
+}
