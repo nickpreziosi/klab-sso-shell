@@ -13,6 +13,7 @@ import {
 import { ActiveAppProvider, useActiveApp } from "@/ui/shell/providers/active-app-provider";
 import { ShellSessionProvider } from "@/ui/shell/providers/shell-session-provider";
 import { PreferencesBar } from "@/ui/shared/components/preferences-bar";
+import { ShellPreferencesBar } from "@/ui/shell/components/shell-preferences-bar";
 import { AppMobileNavbar } from "@/ui/shared/components/app-mobile-navbar";
 import { ShellSidebar } from "@/ui/shell/components/shell-sidebar";
 import { AppContentSlot } from "@/ui/shell/components/app-content-slot";
@@ -105,7 +106,7 @@ function ShellLayoutContent({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen-dvh overflow-hidden bg-background relative">
-      <PreferencesBar />
+      <ShellPreferencesBar />
       <ShellSidebar
         appId={activeAppId}
         open={sidebarOpen}

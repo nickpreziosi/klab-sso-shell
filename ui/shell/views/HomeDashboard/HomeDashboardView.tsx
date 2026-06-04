@@ -33,9 +33,11 @@ import {
 } from "@/config/dashboard/home-apps";
 import { appShowsBrandLogo } from "@/config/apps/registry";
 import { appDefaultHref } from "@/lib/navigation/resolve-nav";
+import { useInternationalizationContext } from "@/lib/i18n/use-internationalization-context";
 
 function HeroCarouselInner() {
   const { selectedIndex, scrollPrev, scrollNext, scrollTo } = useCarousel();
+  const { t } = useInternationalizationContext();
 
   return (
     <>
@@ -116,7 +118,7 @@ function HeroCarouselInner() {
                           isLightSlide ? "text-white" : "text-black/70"
                         )}
                       >
-                        {entry.description}
+                        {t(`${entry.app.id}.description`, "apps") || entry.app.description}
                       </p>
                       {!isShellSlide && (
                         <Button
@@ -130,7 +132,7 @@ function HeroCarouselInner() {
                           )}
                         >
                           <Link href={href}>
-                            Explore {entry.app.name}
+                            {t("exploreCta", "home", { name: t(`${entry.app.id}.name`, "apps") || entry.app.name })}
                             <ArrowRight className="h-4 w-4" />
                           </Link>
                         </Button>
@@ -147,7 +149,7 @@ function HeroCarouselInner() {
           <button
             type="button"
             onClick={scrollPrev}
-            aria-label="Previous slide"
+            aria-label={t("prevSlide", "home")}
             className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-app-radius text-white transition-colors hover:bg-accent/20 active:scale-95 sm:flex"
           >
             <ChevronLeft className="h-10 w-10" />
@@ -155,14 +157,14 @@ function HeroCarouselInner() {
           <div
             className="flex flex-1 items-center justify-center gap-4 sm:flex-initial"
             role="tablist"
-            aria-label="Carousel slides"
+            aria-label={t("carouselSlides", "home")}
           >
             {HOME_CAROUSEL_ENTRIES.map((entry, idx) => (
               <button
                 key={entry.app.id}
                 type="button"
                 role="tab"
-                aria-label={`Go to ${entry.app.name}`}
+                aria-label={t("goToSlide", "home", { name: t(`${entry.app.id}.name`, "apps") || entry.app.name })}
                 aria-selected={idx === selectedIndex}
                 onClick={() => scrollTo(idx)}
                 className={cn(
@@ -175,7 +177,7 @@ function HeroCarouselInner() {
           <button
             type="button"
             onClick={scrollNext}
-            aria-label="Next slide"
+            aria-label={t("nextSlide", "home")}
             className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-app-radius text-white transition-colors hover:bg-accent/20 active:scale-95 sm:flex"
           >
             <ChevronRight className="h-10 w-10" />
@@ -200,25 +202,30 @@ function HeroCarousel() {
 }
 
 function AppCard({ entry }: { entry: HomeCardEntry }) {
-  const Icon = entry.icon;
+  const Icon = entry.app.dashboardIcon;
   const href = appDefaultHref(entry.app);
+  const { t } = useInternationalizationContext();
+  const appName = t(`${entry.app.id}.name`, "apps") || entry.app.name;
+  const appDesc = t(`${entry.app.id}.description`, "apps") || entry.app.description;
 
   return (
     <div className="group relative h-full">
       <Link href={href} className="block h-full">
         <Card className="flex h-full w-full flex-col transition-all duration-200 hover:border-accent-brand/30 hover:shadow-[0_4px_24px_-6px_hsl(var(--accent-brand)/0.12)]">
           <CardHeader className="flex flex-col gap-4 space-y-0">
-            <div className="flex h-10 w-10 items-center justify-center rounded-app-radius bg-muted-foreground/10 text-muted-foreground transition-all group-hover:bg-accent-brand/10 group-hover:text-accent-brand">
-              <Icon className="h-5 w-5" aria-hidden />
-            </div>
+            {Icon && (
+              <div className="flex h-10 w-10 items-center justify-center rounded-app-radius bg-muted-foreground/10 text-muted-foreground transition-all group-hover:bg-accent-brand/10 group-hover:text-accent-brand">
+                <Icon className="h-5 w-5" aria-hidden />
+              </div>
+            )}
             <div className="space-y-1.5">
-              <CardTitle className="text-base leading-snug">{entry.app.name}</CardTitle>
-              <CardDescription className="leading-relaxed">{entry.description}</CardDescription>
+              <CardTitle className="text-base leading-snug">{appName}</CardTitle>
+              <CardDescription className="leading-relaxed">{appDesc}</CardDescription>
             </div>
           </CardHeader>
           <CardFooter className="mt-auto flex-col items-start gap-0 border-t border-border pt-4">
             <span className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-brand group-hover:underline">
-              Open
+              {t("open", "home")}
               <ArrowRight className="h-3.5 w-3.5" />
             </span>
           </CardFooter>
@@ -229,6 +236,8 @@ function AppCard({ entry }: { entry: HomeCardEntry }) {
 }
 
 export function HomeDashboardView() {
+  const { t } = useInternationalizationContext();
+
   return (
     <div className="flex w-full flex-col gap-10">
       <HeroCarousel />
@@ -237,10 +246,10 @@ export function HomeDashboardView() {
         <div className="mb-5">
           <h2 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
             <LayoutDashboard className="h-5 w-5 text-muted-foreground" aria-hidden />
-            Applications
+            {t("applicationsTitle", "home")}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Open a K Rails application to continue your work.
+            {t("applicationsSubtitle", "home")}
           </p>
         </div>
         <div className="grid grid-cols-1 gap-4 @md:grid-cols-2 @xl:grid-cols-4">

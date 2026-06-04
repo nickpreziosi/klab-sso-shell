@@ -15,7 +15,39 @@
     "closeMenu": "Fechar menu",
     "navigation": "Navegação",
     "settings": "Configurações",
-    "logout": "Sair"
+    "logout": "Sair",
+    "profile": "Perfil",
+    "dashboard": "Painel",
+    "dataEntry": "Entrada de dados",
+    "quickAssessment": "Avaliação rápida",
+    "financialSummary": "Resumo financeiro",
+    "benchmarks": "Benchmarks",
+    "monitoring": "Monitoramento",
+    "segmentation": "Segmentação",
+    "dataValidation": "Validação de dados",
+    "more": "Mais",
+    "satSummary": "Resumo SAT",
+    "bureau": "Bureau",
+    "creditLines": "Linhas de crédito",
+    "kBehavior": "K Behavior",
+    "kScoring": "K Scoring",
+    "writeUp": "Análise",
+    "configuration": "Configuração",
+    "invoiceDashboard": "Painel de faturas",
+    "createInvoice": "Criar nova fatura",
+    "createMultipleInvoices": "Criar múltiplas faturas",
+    "issuers": "Emissores",
+    "acquirers": "Adquirentes",
+    "buyers": "Compradores",
+    "suppliers": "Fornecedores",
+    "transactions": "Transações",
+    "access": "Acesso",
+    "networkMap": "Mapa de rede",
+    "leadRanking": "Classificação de leads",
+    "modelPerformance": "Desempenho do modelo",
+    "methodology": "Metodologia",
+    "globalAnalysis": "Análise global",
+    "individualPortfolio": "Portfólio individual"
   },
   "theme": {
     "light": "Claro",
@@ -25,12 +57,58 @@
   "preferences": {
     "toolbarAria": "Preferências",
     "themeTooltipWithValue": "Tema: {{theme}}",
-    "languageTooltip": "Idioma"
+    "languageTooltip": "Idioma",
+    "roleLabel": "Função",
+    "roleTooltip": "Função",
+    "roleTooltipWithValue": "Função: {{role}}",
+    "roleAdmin": "Administrador",
+    "roleUw": "Analista",
+    "roleExecutive": "Executivo",
+    "roleExecutiveBrazil": "Executivo Brasil",
+    "roleOperations": "Operações",
+    "roleCommitteeGtc": "Comitê GTC",
+    "brandLabel": "Marca",
+    "brandTooltip": "Marca",
+    "brandTooltipWithValue": "Marca: {{brand}}",
+    "brandKrisk": "K Risk",
+    "brandKeoCapital": "KEO Capital"
   },
   "i18n": {
     "noLanguageFound": "Nenhum idioma encontrado.",
     "keyboardHint": "Digite para filtrar. Use as setas para navegar na lista, Enter para selecionar e Escape para fechar.",
     "searchLanguagesPlaceholder": "Pesquisar idiomas…"
+  },
+  "home": {
+    "applicationsTitle": "Aplicações",
+    "applicationsSubtitle": "Abra um aplicativo K Rails para continuar seu trabalho.",
+    "open": "Abrir",
+    "exploreCta": "Explorar {{name}}",
+    "prevSlide": "Slide anterior",
+    "nextSlide": "Próximo slide",
+    "carouselSlides": "Slides do carrossel",
+    "goToSlide": "Ir para {{name}}"
+  },
+  "apps": {
+    "shell": {
+      "name": "K Rails",
+      "description": "K Rails é uma camada de execução e confiança programável para movimentação institucional de dinheiro — determinando não apenas como o dinheiro se move, mas se deveria se mover, com prova defensável."
+    },
+    "krisk": {
+      "name": "Análise de riscos",
+      "description": "Motor de inteligência abrangente que integra histórico interno e fontes de dados externas para fortalecer o underwriting e proteger a carteira."
+    },
+    "invoice": {
+      "name": "Gestor de faturas",
+      "description": "Crie, gerencie e rastreie faturas em toda a sua organização com fluxos de trabalho simplificados e visibilidade em tempo real."
+    },
+    "kbpm": {
+      "name": "Portal administrativo",
+      "description": "Conformidade regulatória e automação de processos empresariais para onboarding, roteamento, emissão de cartões e fluxos de trabalho unificados."
+    },
+    "kleads": {
+      "name": "Geração de leads",
+      "description": "Geração de leads que impulsiona maior conversão de prospects, maximiza a eficiência comercial e acelera o crescimento."
+    }
   },
   "shell": {
     "copyright": "© {{year}} K Lab AI Holdings Inc. Todos os direitos reservados.",

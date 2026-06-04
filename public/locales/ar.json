@@ -15,7 +15,39 @@
     "closeMenu": "إغلاق القائمة",
     "navigation": "التنقل",
     "settings": "الإعدادات",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "profile": "الملف الشخصي",
+    "dashboard": "لوحة المعلومات",
+    "dataEntry": "إدخال البيانات",
+    "quickAssessment": "التقييم السريع",
+    "financialSummary": "الملخص المالي",
+    "benchmarks": "المؤشرات المرجعية",
+    "monitoring": "المراقبة",
+    "segmentation": "التجزئة",
+    "dataValidation": "التحقق من البيانات",
+    "more": "المزيد",
+    "satSummary": "ملخص SAT",
+    "bureau": "المكتب الائتماني",
+    "creditLines": "خطوط الائتمان",
+    "kBehavior": "K Behavior",
+    "kScoring": "K Scoring",
+    "writeUp": "التقرير التحليلي",
+    "configuration": "الإعداد",
+    "invoiceDashboard": "لوحة الفواتير",
+    "createInvoice": "إنشاء فاتورة جديدة",
+    "createMultipleInvoices": "إنشاء فواتير متعددة",
+    "issuers": "المُصدِرون",
+    "acquirers": "المُكتسِبون",
+    "buyers": "المشترون",
+    "suppliers": "الموردون",
+    "transactions": "المعاملات",
+    "access": "الوصول",
+    "networkMap": "خريطة الشبكة",
+    "leadRanking": "ترتيب العملاء المحتملين",
+    "modelPerformance": "أداء النموذج",
+    "methodology": "المنهجية",
+    "globalAnalysis": "التحليل العالمي",
+    "individualPortfolio": "المحفظة الفردية"
   },
   "theme": {
     "light": "فاتح",
@@ -25,12 +57,58 @@
   "preferences": {
     "toolbarAria": "التفضيلات",
     "themeTooltipWithValue": "المظهر: {{theme}}",
-    "languageTooltip": "اللغة"
+    "languageTooltip": "اللغة",
+    "roleLabel": "الدور",
+    "roleTooltip": "الدور",
+    "roleTooltipWithValue": "الدور: {{role}}",
+    "roleAdmin": "مدير",
+    "roleUw": "محلل",
+    "roleExecutive": "تنفيذي",
+    "roleExecutiveBrazil": "تنفيذي البرازيل",
+    "roleOperations": "عمليات",
+    "roleCommitteeGtc": "لجنة GTC",
+    "brandLabel": "العلامة",
+    "brandTooltip": "العلامة",
+    "brandTooltipWithValue": "العلامة: {{brand}}",
+    "brandKrisk": "K Risk",
+    "brandKeoCapital": "KEO Capital"
   },
   "i18n": {
     "noLanguageFound": "لم يتم العثور على لغة.",
     "keyboardHint": "اكتب للتصفية. استخدم مفاتيح الأسهم للتنقل في القائمة، وEnter للاختيار، وEscape للإغلاق.",
     "searchLanguagesPlaceholder": "البحث عن اللغات…"
+  },
+  "home": {
+    "applicationsTitle": "التطبيقات",
+    "applicationsSubtitle": "افتح أحد تطبيقات K Rails لمتابعة عملك.",
+    "open": "فتح",
+    "exploreCta": "استكشف {{name}}",
+    "prevSlide": "الشريحة السابقة",
+    "nextSlide": "الشريحة التالية",
+    "carouselSlides": "شرائح العرض",
+    "goToSlide": "الانتقال إلى {{name}}"
+  },
+  "apps": {
+    "shell": {
+      "name": "K Rails",
+      "description": "K Rails هي طبقة تنفيذ وثقة قابلة للبرمجة لتحريك الأموال المؤسسية، تحدد ليس فقط كيفية تحرك الأموال، بل ما إذا كان ينبغي تحريكها، مع دليل قابل للدفاع."
+    },
+    "krisk": {
+      "name": "تحليل المخاطر",
+      "description": "محرك استخبارات شامل يدمج السجل الداخلي ومصادر البيانات الخارجية لتعزيز الاكتتاب وحماية المحفظة."
+    },
+    "invoice": {
+      "name": "مدير الفواتير",
+      "description": "إنشاء الفواتير وإدارتها وتتبعها عبر مؤسستك بسير عمل مبسطة ورؤية فورية."
+    },
+    "kbpm": {
+      "name": "بوابة الإدارة",
+      "description": "الامتثال التنظيمي وأتمتة العمليات التجارية للإعداد والتوجيه وإصدار البطاقات وسير العمل الموحد."
+    },
+    "kleads": {
+      "name": "توليد العملاء المحتملين",
+      "description": "توليد العملاء المحتملين الذي يدفع إلى تحويل أعلى للعملاء المحتملين وكفاءة تجارية أقصى ونمو متسارع."
+    }
   },
   "shell": {
     "copyright": "© {{year}} K Lab AI Holdings Inc. جميع الحقوق محفوظة.",

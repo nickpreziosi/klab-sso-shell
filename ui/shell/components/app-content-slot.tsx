@@ -3,7 +3,7 @@
 import * as React from "react";
 import type { ShellAppConfig } from "@/config/apps/registry";
 import { isProxiedMount } from "@/lib/krisk-proxy";
-import { KriskProxyEmbed } from "@/ui/shell/components/krisk-proxy-embed";
+import { ProxyEmbed } from "@/ui/shell/components/proxy-embed";
 import { KriskProxyUnavailable } from "@/ui/shell/components/krisk-proxy-unavailable";
 
 interface AppContentSlotProps {
@@ -11,18 +11,17 @@ interface AppContentSlotProps {
   children: React.ReactNode;
 }
 
-const kriskProxyEnabled = process.env.NEXT_PUBLIC_KRISK_PROXY_ENABLED === "1";
-
 /**
  * The single seam where app content is rendered into the shell.
  *
  * For apps with `mount.type === "proxy"`, embeds the standalone dev app via a
- * same-origin iframe (`/krisk-proxy/*` → `KRISK_DEV_ORIGIN`).
+ * same-origin iframe (`/{slug}-proxy/*` → dev server). Only active in development;
+ * production shows a placeholder until Phase 2 mounting is implemented.
  */
 export function AppContentSlot({ app, children }: AppContentSlotProps) {
   if (isProxiedMount(app)) {
-    if (kriskProxyEnabled) {
-      return <KriskProxyEmbed />;
+    if (process.env.NODE_ENV === "development") {
+      return <ProxyEmbed app={app} />;
     }
     return <KriskProxyUnavailable />;
   }

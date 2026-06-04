@@ -35,6 +35,7 @@ function toNavLink(app: ShellAppConfig, item: NavItemConfig): AppSidebarNavLink 
   return {
     href: resolveHref(app, item.segment),
     label: item.label,
+    i18nKey: item.i18nKey,
     icon: item.icon,
   };
 }
@@ -47,6 +48,7 @@ export function getAccordions(app: ShellAppConfig): AppSidebarAccordion[] {
   return (app.accordions ?? []).map((acc) => ({
     id: acc.id,
     label: acc.label,
+    i18nKey: acc.i18nKey,
     icon: acc.icon,
     items: acc.items.map((item) => toNavLink(app, item)),
   }));

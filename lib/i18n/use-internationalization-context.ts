@@ -2,12 +2,11 @@
 
 import * as React from "react";
 import { useLocale, useMessages } from "next-intl";
-import { useRouter } from "next/navigation";
 import {
   APP_LANGUAGE_OPTIONS,
-  persistAppLanguage,
   type AppLanguageCode,
 } from "@/lib/app-languages";
+import { useAppLanguage } from "@/ui/shared/contexts/app-language-context";
 
 function getNestedString(messages: Record<string, unknown>, path: string[]): string | undefined {
   let cur: unknown = messages;
@@ -39,7 +38,7 @@ function buildTranslationPath(key: string, namespace?: string): string[] {
 export function useInternationalizationContext() {
   const locale = useLocale();
   const messages = useMessages() as Record<string, unknown>;
-  const router = useRouter();
+  const { setLanguage } = useAppLanguage();
 
   const t = React.useCallback(
     (key: string, namespace?: string, params?: Record<string, unknown>): string => {
@@ -63,10 +62,11 @@ export function useInternationalizationContext() {
 
   const changeLanguage = React.useCallback(
     async (language: string) => {
-      persistAppLanguage(language as AppLanguageCode);
-      router.refresh();
+      // Route through AppLanguageContext so IntlClientAdapter picks up the change
+      // and fetches the new locale messages without requiring a server round-trip.
+      setLanguage(language as AppLanguageCode);
     },
-    [router],
+    [setLanguage],
   );
 
   return {

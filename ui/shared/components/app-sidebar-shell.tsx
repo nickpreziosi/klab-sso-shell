@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { useInternationalizationContext } from "@/lib/i18n/use-internationalization-context";
 import {
   cn,
   Sidebar,
@@ -47,6 +48,7 @@ export type { ShellAppId };
 export type AppSidebarNavLink = {
   href: string;
   label: string;
+  i18nKey?: string;
   icon: React.ComponentType<{ className?: string }>;
   ariaLabel?: string;
 };
@@ -54,6 +56,7 @@ export type AppSidebarNavLink = {
 export type AppSidebarAccordion = {
   id: string;
   label: string;
+  i18nKey?: string;
   icon: React.ComponentType<{ className?: string }>;
   items: AppSidebarNavLink[];
 };
@@ -132,6 +135,7 @@ function InternalSidebarContent({
   const [mobileProfileDropdownOpen, setMobileProfileDropdownOpen] = React.useState(false);
 
   const router = useRouter();
+  const { t } = useInternationalizationContext();
 
   // Navigate client-side: the nav items render as `<a href>` (for accessibility
   // and modifier-click), but a plain anchor triggers a full-page reload that
@@ -167,6 +171,8 @@ function InternalSidebarContent({
     const normalizedHref = link.href.endsWith("/") ? link.href.slice(0, -1) : link.href;
     const isActive = normalizedPath === normalizedHref;
 
+    const displayLabel = link.i18nKey ? t(link.i18nKey, "nav") : link.label;
+
     if (collapsed) {
       return (
         <SidebarMenuItem key={link.href}>
@@ -178,13 +184,13 @@ function InternalSidebarContent({
                 className={cn("h-9 w-9", isActive && "bg-accent text-accent-foreground")}
                 href={link.href}
                 onClick={handleNavigate(link.href)}
-                aria-label={link.ariaLabel ?? link.label}
+                aria-label={link.ariaLabel ?? displayLabel}
               >
                 <Icon className="h-5 w-5" />
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right">
-              <p>{link.label}</p>
+              <p>{displayLabel}</p>
             </TooltipContent>
           </Tooltip>
         </SidebarMenuItem>
@@ -205,7 +211,7 @@ function InternalSidebarContent({
           onClick={handleNavigate(link.href)}
         >
           <Icon className="h-5 w-5" />
-          <span>{link.label}</span>
+          <span>{displayLabel}</span>
         </Button>
       </SidebarMenuItem>
     );
@@ -218,6 +224,7 @@ function InternalSidebarContent({
       const nested = currentPath.startsWith(item.href + "/");
       return exact || nested;
     });
+    const accordionLabel = accordion.i18nKey ? t(accordion.i18nKey, "nav") : accordion.label;
 
     if (collapsed) {
       return (
@@ -230,14 +237,14 @@ function InternalSidebarContent({
                     variant="ghost"
                     size="icon"
                     className={cn("h-9 w-9", isActive && "bg-accent text-accent-foreground")}
-                    aria-label={accordion.label}
+                    aria-label={accordionLabel}
                   >
                     <AccordionIcon className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
               </TooltipTrigger>
               <TooltipContent side="right">
-                <p>{accordion.label}</p>
+                <p>{accordionLabel}</p>
               </TooltipContent>
             </Tooltip>
             <DropdownMenuContent side="right" align="start" className="w-48">
@@ -285,12 +292,12 @@ function InternalSidebarContent({
                 linkButtonClass,
                 hideThemeToggle && "text-base"
               )}
-              aria-label={accordion.label}
+              aria-label={accordionLabel}
             >
               <span className="shrink-0 [&>svg]:rotate-0">
                 <AccordionIcon className="h-5 w-5" />
               </span>
-              <span className="flex-1 text-left">{accordion.label}</span>
+              <span className="flex-1 text-left">{accordionLabel}</span>
             </AccordionTrigger>
             <AccordionContent className="pb-1 pt-2">
               <div className="flex flex-col gap-2 pl-5">
@@ -354,7 +361,7 @@ function InternalSidebarContent({
       <SidebarContent className={cn("flex flex-col", hideThemeToggle && "pt-2")}>
         <SidebarGroup>
           <SidebarGroupLabel className={cn(hideThemeToggle && "text-sm")}>
-            Navigation
+            {t("navigation", "nav")}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="flex flex-col gap-1">
@@ -374,7 +381,7 @@ function InternalSidebarContent({
                     variant="ghost"
                     size="icon"
                     className="h-9 w-9 avatar-trigger-btn"
-                    aria-label="Account"
+                    aria-label={t("account", "nav")}
                   >
                     <Avatar className="h-9 w-9">
                       <AvatarImage src={user.avatar} alt={user.name} />
@@ -384,25 +391,25 @@ function InternalSidebarContent({
                 </DropdownMenuTrigger>
               </TooltipTrigger>
               <TooltipContent side="right">
-                <p>Account</p>
+                <p>{t("account", "nav")}</p>
               </TooltipContent>
             </Tooltip>
             <DropdownMenuContent align="center" className="!w-56 !p-2 glass-morphism">
-              <DropdownMenuLabel className="px-2 py-1.5 text-xs">My Account</DropdownMenuLabel>
+              <DropdownMenuLabel className="px-2 py-1.5 text-xs">{t("myAccount", "nav")}</DropdownMenuLabel>
               <Separator className="my-1" />
               <DropdownMenuItem
                 onClick={onProfileClick}
                 className="min-h-11 px-3 py-2.5 cursor-pointer"
               >
                 <User className="mr-3 h-5 w-5" />
-                <span>Profile</span>
+                <span>{t("profile", "nav")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={onSettingsClick}
                 className="min-h-11 px-3 py-2.5 cursor-pointer"
               >
                 <Settings className="mr-3 h-5 w-5" />
-                <span>Settings</span>
+                <span>{t("settings", "nav")}</span>
               </DropdownMenuItem>
               <Separator className="my-1" />
               <DropdownMenuItem
@@ -410,7 +417,7 @@ function InternalSidebarContent({
                 className="min-h-11 px-3 py-2.5 cursor-pointer text-destructive focus:text-destructive"
               >
                 <LogOut className="mr-3 h-5 w-5" />
-                <span>Logout</span>
+                <span>{t("logout", "nav")}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -462,21 +469,21 @@ function InternalSidebarContent({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="!w-64 lg:!w-56 !p-2 glass-morphism">
-              <DropdownMenuLabel className="px-2 py-1.5 text-xs">My Account</DropdownMenuLabel>
+              <DropdownMenuLabel className="px-2 py-1.5 text-xs">{t("myAccount", "nav")}</DropdownMenuLabel>
               <Separator className="my-1" />
               <DropdownMenuItem
                 onClick={onProfileClick}
                 className="min-h-11 px-3 py-2.5 cursor-pointer"
               >
                 <User className="mr-3 h-5 w-5" />
-                <span>Profile</span>
+                <span>{t("profile", "nav")}</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={onSettingsClick}
                 className="min-h-11 px-3 py-2.5 cursor-pointer"
               >
                 <Settings className="mr-3 h-5 w-5" />
-                <span>Settings</span>
+                <span>{t("settings", "nav")}</span>
               </DropdownMenuItem>
               <Separator className="my-1" />
               <DropdownMenuItem
@@ -484,7 +491,7 @@ function InternalSidebarContent({
                 className="min-h-11 px-3 py-2.5 cursor-pointer text-destructive focus:text-destructive"
               >
                 <LogOut className="mr-3 h-5 w-5" />
-                <span>Logout</span>
+                <span>{t("logout", "nav")}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

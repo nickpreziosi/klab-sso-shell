@@ -1,11 +1,10 @@
 import type { ShellAppConfig } from "@/config/apps/registry";
+import { getProxiedApp } from "@/config/apps/proxy-config";
+
+const _krisk = getProxiedApp("krisk")!;
 
 /** Same-origin prefix that Next rewrites to the standalone ux-krisk dev server. */
-export const KRISK_PROXY_PREFIX = "/krisk-proxy";
-
-export function isKriskProxyConfigured(): boolean {
-  return Boolean(process.env.KRISK_DEV_ORIGIN?.trim());
-}
+export const KRISK_PROXY_PREFIX = _krisk.proxyPrefix;
 
 export function isProxiedMount(app: ShellAppConfig): boolean {
   return app.mount?.type === "proxy";
@@ -28,4 +27,17 @@ export function kriskProxyIframeSrc(pathname: string): string {
   const url = new URL(proxyPath, "http://placeholder");
   url.searchParams.set("shell", "1");
   return `${url.pathname}${url.search}`;
+}
+
+/**
+ * Inverse of `shellPathToKriskProxyPath`.
+ * Maps an app-relative path (as reported by the embedded app) to the
+ * shell-rooted URL so the shell's router can be kept in sync.
+ *
+ * "/financial-summary/groups/edit" → "/krisk/financial-summary/groups/edit"
+ * "/"                              → "/krisk"
+ */
+export function kriskProxyPathToShellPath(appRelativePath: string): string {
+  const normalized = appRelativePath.startsWith("/") ? appRelativePath : `/${appRelativePath}`;
+  return normalized === "/" ? "/krisk" : `/krisk${normalized}`;
 }

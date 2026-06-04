@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
+    "dev:all": "concurrently --names \"SHELL,KRISK,KBPM\" --prefix-colors \"blue,cyan,green\" \"next dev --hostname 127.0.0.1\" \"npm --prefix ../ux-krisk run dev\" \"npm --prefix ../keo-core-admin-web-ui run dev\"",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint .",
@@ -26,6 +27,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^10.0.3",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "eslint-config-prettier": "^10.1.8",

@@ -7,9 +7,9 @@ import {
   shellFooterSupportUrl,
   shellFooterWebsiteUrl,
 } from "@/lib/app-shell-footer-config";
-import { shellFooterText } from "@/lib/app-shell-footer-copy";
 import { AppFeedbackModal } from "@/ui/shared/components/app-feedback-modal";
 import { useShellFooterLocaleSegment } from "@/ui/shared/hooks/use-shell-footer-locale";
+import { useInternationalizationContext } from "@/lib/i18n/use-internationalization-context";
 import { Button, cn, Separator } from "@k-lab/components";
 
 function SocialLinkedIn({ className }: { className?: string }) {
@@ -60,6 +60,7 @@ export function AppShellFooter() {
   const websiteHref = shellFooterWebsiteUrl(localeSeg);
   const legalHref = shellFooterLegalUrl(localeSeg);
   const supportHref = shellFooterSupportUrl(localeSeg);
+  const { t } = useInternationalizationContext();
 
   return (
     <footer data-shell-footer className="shrink-0 border-t border-border bg-background py-1">
@@ -72,13 +73,13 @@ export function AppShellFooter() {
         >
           <div className="min-w-0 justify-self-center text-pretty @md:justify-self-start @md:pe-4">
             <p className="m-0 mx-auto max-w-prose text-center @md:mx-0 @md:max-w-none @md:text-start">
-              {shellFooterText("copyright", { year })}
+              {t("copyright", "shell", { year: String(year) })}
             </p>
           </div>
 
           <nav
             className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2 justify-self-stretch @sm:gap-y-1 @md:justify-self-center"
-            aria-label={shellFooterText("utilityLinksNavLabel")}
+            aria-label={t("utilityLinksNavLabel", "shell")}
           >
             <Button
               href={websiteHref}
@@ -88,7 +89,7 @@ export function AppShellFooter() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {shellFooterText("website")}
+              {t("website", "shell")}
             </Button>
             <Separator orientation="vertical" className="h-4 self-center" />
             <Button
@@ -99,7 +100,7 @@ export function AppShellFooter() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {shellFooterText("legal")}
+              {t("legal", "shell")}
             </Button>
             <Separator orientation="vertical" className="h-4 self-center" />
             <Button
@@ -112,7 +113,7 @@ export function AppShellFooter() {
                 setFeedbackOpen(true);
               }}
             >
-              {shellFooterText("feedback")}
+              {t("feedback", "shell")}
             </Button>
             <Separator orientation="vertical" className="h-4 self-center" />
             <Button
@@ -123,13 +124,13 @@ export function AppShellFooter() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {shellFooterText("support")}
+              {t("support", "shell")}
             </Button>
           </nav>
 
           <nav
             className="flex shrink-0 items-center justify-center gap-1 justify-self-stretch @md:justify-self-end"
-            aria-label={shellFooterText("socialNavLabel")}
+            aria-label={t("socialNavLabel", "shell")}
           >
             <Button
               href={APP_SHELL_FOOTER_URLS.linkedin}
@@ -137,7 +138,7 @@ export function AppShellFooter() {
               size="icon"
               variant="ghost"
               rel="noopener noreferrer"
-              aria-label={shellFooterText("socialLinkedIn")}
+              aria-label={t("socialLinkedIn", "shell")}
             >
               <SocialLinkedIn />
             </Button>
@@ -147,7 +148,7 @@ export function AppShellFooter() {
               variant="ghost"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={shellFooterText("socialX")}
+              aria-label={t("socialX", "shell")}
             >
               <SocialX />
             </Button>
@@ -157,7 +158,7 @@ export function AppShellFooter() {
               variant="ghost"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={shellFooterText("socialInstagram")}
+              aria-label={t("socialInstagram", "shell")}
             >
               <SocialInstagram />
             </Button>
@@ -167,7 +168,7 @@ export function AppShellFooter() {
               variant="ghost"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={shellFooterText("socialTiktok")}
+              aria-label={t("socialTiktok", "shell")}
             >
               <SocialTiktok />
             </Button>
@@ -177,7 +178,7 @@ export function AppShellFooter() {
               variant="ghost"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={shellFooterText("socialYoutube")}
+              aria-label={t("socialYoutube", "shell")}
             >
               <SocialYoutube />
             </Button>

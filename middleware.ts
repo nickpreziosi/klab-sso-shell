@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { PRESENCE_COOKIE_NAME } from "@/lib/auth/presence-cookie";
 import { isAuthApiPath, isPublicPath } from "@/lib/auth/public-routes";
-import { KRISK_PROXY_PREFIX } from "@/lib/krisk-proxy";
+import { PROXIED_APPS } from "@/config/apps/proxy-config";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -15,9 +15,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Dev proxy embed: same-origin iframe must not bounce to /login (parent shell already gates auth).
-  if (pathname === KRISK_PROXY_PREFIX || pathname.startsWith(`${KRISK_PROXY_PREFIX}/`)) {
-    return NextResponse.next();
+  // Dev proxy embeds: same-origin iframes must not bounce to /login (the parent shell already gates auth).
+  for (const { proxyPrefix } of PROXIED_APPS) {
+    if (pathname === proxyPrefix || pathname.startsWith(`${proxyPrefix}/`)) {
+      return NextResponse.next();
+    }
   }
 
   if (isAuthApiPath(pathname) || isPublicPath(pathname)) {

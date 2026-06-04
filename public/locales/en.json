@@ -15,7 +15,39 @@
     "closeMenu": "Close menu",
     "navigation": "Navigation",
     "settings": "Settings",
-    "logout": "Log out"
+    "logout": "Log out",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "dataEntry": "Data Entry",
+    "quickAssessment": "Quick Assessment",
+    "financialSummary": "Financial Summary",
+    "benchmarks": "Benchmarks",
+    "monitoring": "Monitoring",
+    "segmentation": "Segmentation",
+    "dataValidation": "Data Validation",
+    "more": "More",
+    "satSummary": "SAT Summary",
+    "bureau": "Bureau",
+    "creditLines": "Credit Lines",
+    "kBehavior": "K Behavior",
+    "kScoring": "K Scoring",
+    "writeUp": "Write-up",
+    "configuration": "Configuration",
+    "invoiceDashboard": "Invoice Dashboard",
+    "createInvoice": "Create New Invoice",
+    "createMultipleInvoices": "Create Multiple Invoices",
+    "issuers": "Issuers",
+    "acquirers": "Acquirers",
+    "buyers": "Buyers",
+    "suppliers": "Suppliers",
+    "transactions": "Transactions",
+    "access": "Access",
+    "networkMap": "Network Map",
+    "leadRanking": "Lead Ranking",
+    "modelPerformance": "Model Performance",
+    "methodology": "Methodology",
+    "globalAnalysis": "Global Analysis",
+    "individualPortfolio": "Individual Portfolio"
   },
   "theme": {
     "light": "Light",
@@ -25,12 +57,58 @@
   "preferences": {
     "toolbarAria": "Preferences",
     "themeTooltipWithValue": "Theme: {{theme}}",
-    "languageTooltip": "Language"
+    "languageTooltip": "Language",
+    "roleLabel": "Role",
+    "roleTooltip": "Role",
+    "roleTooltipWithValue": "Role: {{role}}",
+    "roleAdmin": "Admin",
+    "roleUw": "Underwriter",
+    "roleExecutive": "Executive",
+    "roleExecutiveBrazil": "Executive Brazil",
+    "roleOperations": "Operations",
+    "roleCommitteeGtc": "Committee GTC",
+    "brandLabel": "Brand",
+    "brandTooltip": "Brand",
+    "brandTooltipWithValue": "Brand: {{brand}}",
+    "brandKrisk": "K Risk",
+    "brandKeoCapital": "KEO Capital"
   },
   "i18n": {
     "noLanguageFound": "No language found.",
     "keyboardHint": "Type to filter. Use arrow keys to move through the list, Enter to select, Escape to close.",
     "searchLanguagesPlaceholder": "Search languages…"
+  },
+  "home": {
+    "applicationsTitle": "Applications",
+    "applicationsSubtitle": "Open a K Rails application to continue your work.",
+    "open": "Open",
+    "exploreCta": "Explore {{name}}",
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "carouselSlides": "Carousel slides",
+    "goToSlide": "Go to {{name}}"
+  },
+  "apps": {
+    "shell": {
+      "name": "K Rails",
+      "description": "K Rails is a programmable trust and execution layer for institutional money movement—determining not only how money moves, but whether it should, with defensible proof."
+    },
+    "krisk": {
+      "name": "Risk Analysis",
+      "description": "Comprehensive intelligence engine that integrates internal history and external data sources to fortify underwriting and protect the portfolio."
+    },
+    "invoice": {
+      "name": "Invoice Manager",
+      "description": "Create, manage, and track invoices across your organization with streamlined workflows and real-time visibility."
+    },
+    "kbpm": {
+      "name": "Admin Portal",
+      "description": "Regulatory compliance and business process automation for onboarding, routing, card issuance, and unified workflows."
+    },
+    "kleads": {
+      "name": "Lead Generation",
+      "description": "Lead generation that drives higher prospect conversion, maximizes commercial efficiency, and accelerates growth."
+    }
   },
   "shell": {
     "copyright": "© {{year}} K Lab AI Holdings Inc. All rights reserved.",

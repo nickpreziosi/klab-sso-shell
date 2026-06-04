@@ -1,57 +1,31 @@
 import { getAppById, type ShellAppConfig, type ShellAppId } from "@/config/apps/registry";
-import { Files, Settings, ShieldCheck, TrendingUp, type LucideIcon } from "lucide-react";
 
 /** Home carousel order: K Rails (shell home) first, then child applications. */
 const HOME_APP_ORDER: ShellAppId[] = ["shell", "invoice", "kbpm", "krisk", "kleads"];
 
-const HOME_CARD_ORDER = ["invoice", "kbpm", "krisk", "kleads"] as const satisfies readonly Exclude<
+const HOME_CARD_ORDER = ["kbpm", "krisk", "kleads"] as const satisfies readonly Exclude<
   ShellAppId,
   "shell"
 >[];
 
 export type HomeAppEntry = {
   app: ShellAppConfig;
-  description: string;
 };
 
-export type HomeCardEntry = HomeAppEntry & {
-  icon: LucideIcon;
-};
+export type HomeCardEntry = HomeAppEntry;
 
-const CARD_ICONS: Record<Exclude<ShellAppId, "shell">, LucideIcon> = {
-  invoice: Files,
-  kbpm: Settings,
-  krisk: ShieldCheck,
-  kleads: TrendingUp,
-};
-
-/** K Rails hero copy — shared by the home carousel and auth brand panel. */
-export const K_RAILS_BRAND_DESCRIPTION =
-  "K Rails is a programmable trust and execution layer for institutional money movement—determining not only how money moves, but whether it should, with defensible proof.";
-
-const DESCRIPTIONS: Record<ShellAppId, string> = {
-  shell: K_RAILS_BRAND_DESCRIPTION,
-  krisk:
-    "Comprehensive intelligence engine that integrates internal history and external data sources to fortify underwriting and protect the portfolio.",
-  invoice:
-    "Create, manage, and track invoices across your organization with streamlined workflows and real-time visibility.",
-  kbpm:
-    "Regulatory compliance and business process automation for onboarding, routing, card issuance, and unified workflows.",
-  kleads:
-    "Lead generation that drives higher prospect conversion, maximizes commercial efficiency, and accelerates growth.",
-};
+/** K Rails hero copy — re-exported for the auth brand panel. */
+export const K_RAILS_BRAND_DESCRIPTION = getAppById("shell")!.description!;
 
 /** Carousel slides (includes K Rails shell home). */
-export const HOME_CAROUSEL_ENTRIES: HomeAppEntry[] = HOME_APP_ORDER.map((id) => {
-  const app = getAppById(id)!;
-  return { app, description: DESCRIPTIONS[app.id] };
-});
+export const HOME_CAROUSEL_ENTRIES: HomeAppEntry[] = HOME_APP_ORDER.map((id) => ({
+  app: getAppById(id)!,
+}));
 
 /** Dashboard cards for child applications only (excludes K Rails home). */
-export const HOME_CARD_ENTRIES: HomeCardEntry[] = HOME_CARD_ORDER.map((id) => {
-  const app = getAppById(id)!;
-  return { app, description: DESCRIPTIONS[app.id], icon: CARD_ICONS[id] };
-});
+export const HOME_CARD_ENTRIES: HomeCardEntry[] = HOME_CARD_ORDER.map((id) => ({
+  app: getAppById(id)!,
+}));
 
 const HERO_BG_ORANGE =
   "/assets/bg-orange-31e3a085-52b5-479d-8fd6-4b2189602639.png";

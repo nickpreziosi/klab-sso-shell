@@ -15,7 +15,7 @@ import {
 } from "@k-lab/components";
 import { Star, X } from "lucide-react";
 import { toast } from "sonner";
-import { shellFooterText } from "@/lib/app-shell-footer-copy";
+import { useInternationalizationContext } from "@/lib/i18n/use-internationalization-context";
 
 const RATING_MAX = 5;
 const RATING_VALUES = [1, 2, 3, 4, 5] as const;
@@ -31,13 +31,14 @@ export function AppFeedbackModal({
   const [rating, setRating] = React.useState("");
   const [comment, setComment] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
+  const { t } = useInternationalizationContext();
 
   const ratingLevelLabels = [
-    shellFooterText("feedbackRatingLevel1"),
-    shellFooterText("feedbackRatingLevel2"),
-    shellFooterText("feedbackRatingLevel3"),
-    shellFooterText("feedbackRatingLevel4"),
-    shellFooterText("feedbackRatingLevel5"),
+    t("feedbackRatingLevel1", "shell"),
+    t("feedbackRatingLevel2", "shell"),
+    t("feedbackRatingLevel3", "shell"),
+    t("feedbackRatingLevel4", "shell"),
+    t("feedbackRatingLevel5", "shell"),
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -48,7 +49,7 @@ export function AppFeedbackModal({
       await new Promise<void>((resolve) => {
         setTimeout(resolve, MOCK_SUBMIT_MS);
       });
-      toast.success(shellFooterText("feedbackSuccessToast"));
+      toast.success(t("feedbackSuccessToast", "shell"));
       onOpenChange(false);
     } finally {
       setSubmitting(false);
@@ -72,25 +73,25 @@ export function AppFeedbackModal({
           className="absolute end-4 top-4 h-10 w-10"
           disabled={submitting}
           onClick={() => onOpenChange(false)}
-          aria-label={shellFooterText("feedbackCancel")}
+          aria-label={t("feedbackCancel", "shell")}
         >
           <X className="h-4 w-4" />
         </Button>
         <form onSubmit={handleSubmit}>
           <DialogHeader className="space-y-1 text-start">
-            <DialogTitle>{shellFooterText("feedbackModalTitle")}</DialogTitle>
-            <DialogDescription>{shellFooterText("feedbackModalDescription")}</DialogDescription>
+            <DialogTitle>{t("feedbackModalTitle", "shell")}</DialogTitle>
+            <DialogDescription>{t("feedbackModalDescription", "shell")}</DialogDescription>
           </DialogHeader>
 
           <div className="mt-6 space-y-6">
             <div className="space-y-3">
               <Label className="text-sm font-medium leading-none">
-                {shellFooterText("feedbackRatingLabel")}
+                {t("feedbackRatingLabel", "shell")}
               </Label>
               <div
                 className="flex flex-wrap items-center justify-center gap-2"
                 role="radiogroup"
-                aria-label={shellFooterText("feedbackRatingGroupAria")}
+                aria-label={t("feedbackRatingGroupAria", "shell")}
               >
                 {RATING_VALUES.map((n) => {
                   const value = String(n);
@@ -123,7 +124,7 @@ export function AppFeedbackModal({
               </div>
               {ratingNum != null && Number.isFinite(ratingNum) ? (
                 <p className="text-center text-xs text-muted-foreground">
-                  {shellFooterText("feedbackRatingSummary", { score: ratingNum, max: RATING_MAX })}
+                  {t("feedbackRatingSummary", "shell", { score: String(ratingNum), max: String(RATING_MAX) })}
                 </p>
               ) : null}
             </div>
@@ -131,8 +132,8 @@ export function AppFeedbackModal({
             <FloatingLabelInput
               id="app-feedback-comment"
               type="textarea"
-              label={shellFooterText("feedbackCommentLabel")}
-              placeholder={shellFooterText("feedbackCommentPlaceholder")}
+              label={t("feedbackCommentLabel", "shell")}
+              placeholder={t("feedbackCommentPlaceholder", "shell")}
               className="min-h-[120px]"
               value={comment}
               disabled={submitting}
@@ -147,7 +148,7 @@ export function AppFeedbackModal({
               disabled={submitting}
               onClick={() => onOpenChange(false)}
             >
-              {shellFooterText("feedbackCancel")}
+              {t("feedbackCancel", "shell")}
             </Button>
             <Button
               type="submit"
@@ -155,7 +156,7 @@ export function AppFeedbackModal({
               loading={submitting}
               variant="accent-brand"
             >
-              {submitting ? shellFooterText("feedbackSubmitting") : shellFooterText("feedbackSubmit")}
+              {submitting ? t("feedbackSubmitting", "shell") : t("feedbackSubmit", "shell")}
             </Button>
           </DialogFooter>
         </form>

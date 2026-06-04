@@ -1,12 +1,14 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import {
   APP_LANGUAGE_STORAGE_KEY,
   type AppLanguageCode,
   getStoredAppLanguage,
   persistAppLanguage,
 } from "@/lib/app-languages";
+import { SHELL_EMBED_SET_LANGUAGE_MESSAGE } from "@/lib/krisk-iframe-height";
 
 type AppLanguageContextValue = {
   language: AppLanguageCode;
@@ -15,11 +17,20 @@ type AppLanguageContextValue = {
 
 const AppLanguageContext = React.createContext<AppLanguageContextValue | null>(null);
 
-export function AppLanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = React.useState<AppLanguageCode>("en");
+export function AppLanguageProvider({
+  children,
+  initialLanguage = "en",
+}: {
+  children: React.ReactNode;
+  initialLanguage?: AppLanguageCode;
+}) {
+  const router = useRouter();
+  const [language, setLanguageState] = React.useState<AppLanguageCode>(initialLanguage);
 
   React.useEffect(() => {
-    setLanguageState(getStoredAppLanguage());
+    const stored = getStoredAppLanguage();
+    if (stored !== language) setLanguageState(stored);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -32,10 +43,20 @@ export function AppLanguageProvider({ children }: { children: React.ReactNode })
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
-  const setLanguage = React.useCallback((code: AppLanguageCode) => {
-    setLanguageState(code);
-    persistAppLanguage(code);
-  }, []);
+  const setLanguage = React.useCallback(
+    (code: AppLanguageCode) => {
+      setLanguageState(code);
+      persistAppLanguage(code);
+      router.refresh();
+      document.querySelectorAll("iframe").forEach((iframe) => {
+        iframe.contentWindow?.postMessage(
+          { type: SHELL_EMBED_SET_LANGUAGE_MESSAGE, language: code },
+          window.location.origin,
+        );
+      });
+    },
+    [router],
+  );
 
   const value = React.useMemo(() => ({ language, setLanguage }), [language, setLanguage]);
 
