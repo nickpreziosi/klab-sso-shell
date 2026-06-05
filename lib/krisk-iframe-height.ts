@@ -49,3 +49,19 @@ export function isShellEmbedSetLanguageMessage(
     typeof (data as ShellEmbedSetLanguageMessage).language === "string"
   );
 }
+
+// Shell → iframe: instruct the embedded app to navigate to a new path.
+// The path is app-relative (e.g. "/financial-summary/groups/edit"), not shell-rooted.
+export const SHELL_SEND_NAVIGATE_MESSAGE = "klab-shell-send-navigate" as const;
+export type ShellSendNavigateMessage = {
+  type: typeof SHELL_SEND_NAVIGATE_MESSAGE;
+  path: string;
+};
+
+// Shell → iframe: deliver the current Firebase ID token so the embedded app
+// can authenticate API calls without sharing cookies.
+export const SHELL_SEND_TOKEN_MESSAGE = "klab-shell-send-token" as const;
+export type ShellSendTokenMessage = {
+  type: typeof SHELL_SEND_TOKEN_MESSAGE;
+  token: string | null;
+};
