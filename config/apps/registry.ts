@@ -144,6 +144,7 @@ export function getAppBaseUrl(app: ShellAppConfig): string | undefined {
 
 const _kriskProxy = getProxiedApp("krisk")!;
 const _kbpmProxy = getProxiedApp("kbpm")!;
+const _kleadsProxy = getProxiedApp("kleads")!;
 
 export const APPS: ShellAppConfig[] = [
   SHELL_APP,
@@ -242,7 +243,11 @@ export const APPS: ShellAppConfig[] = [
       "Lead generation that drives higher prospect conversion, maximizes commercial efficiency, and accelerates growth.",
     dashboardIcon: TrendingUp,
     permissions: ["kleads:view"],
+    devPort: _kleadsProxy.devPort,
     prodUrl: "https://leads.klab.com",
+    mount: {
+      type: "proxy",
+    },
     primaryNav: [
       { segment: "", label: "Dashboard", i18nKey: "dashboard", icon: LayoutDashboard },
       { segment: "network-map", label: "Network Map", i18nKey: "networkMap", icon: Network },

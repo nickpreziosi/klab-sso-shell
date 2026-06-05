@@ -244,6 +244,9 @@ export function ProxyIframePool() {
       }
 
       if (isShellEmbedNavigateMessage(event.data)) {
+        // Only honour navigation from the currently visible app — inactive iframes
+        // (e.g. responding to a language-change broadcast) must not hijack the URL.
+        if (appId !== activeAppIdRef.current) return;
         const app = getAppById(appId as ShellAppId);
         if (!app) return;
         const shellPath = proxyPathToShellPath(event.data.path, app);

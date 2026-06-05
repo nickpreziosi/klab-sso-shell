@@ -35,6 +35,12 @@ export const PROXIED_APPS: ProxiedAppConfig[] = [
     devPort: 3002,
     proxyPrefix: "/kbpm-proxy",
   },
+  {
+    appId: "kleads",
+    slug: "kleads",
+    devPort: 3003,
+    proxyPrefix: "/kleads-proxy",
+  },
 ];
 
 export function getProxiedApp(appId: string): ProxiedAppConfig | undefined {
