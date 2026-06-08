@@ -9,6 +9,7 @@ import { getAppById, type ShellAppId } from "@/config/apps/registry";
 import { isProxiedMount } from "@/lib/krisk-proxy";
 import { useActiveApp } from "@/ui/shell/providers/active-app-provider";
 import { useShellSession } from "@/ui/shell/providers/shell-session-provider";
+import { useShellRole } from "@/ui/shell/providers/shell-role-provider";
 import {
   isShellEmbedHeightMessage,
   isShellEmbedNavigateMessage,
@@ -17,6 +18,7 @@ import {
   SHELL_SEND_NAVIGATE_MESSAGE,
   SHELL_SEND_TOKEN_MESSAGE,
 } from "@/lib/krisk-iframe-height";
+import { SHELL_RELOAD_IFRAME_EVENT } from "@/lib/krisk-brand";
 import { proxyIframeSrc, proxyPathToShellPath } from "@/lib/proxy-routing";
 
 // ---------------------------------------------------------------------------
@@ -81,8 +83,21 @@ function getTargetOrigin(appId: string): string {
  * On load, each iframe receives the current Firebase ID token so it can
  * authenticate its own API calls independently of the shell's cookies.
  */
+function isIframeErrorDocument(doc: Document | null | undefined): boolean {
+  if (!doc) return false;
+  const title = doc.title.toLowerCase();
+  const text = doc.body?.innerText?.toLowerCase() ?? "";
+  return (
+    title.includes("internal server error") ||
+    text.includes("internal server error") ||
+    title.includes("502") ||
+    text.includes("bad gateway")
+  );
+}
+
 export function ProxyIframePool() {
   const { activeAppId } = useActiveApp();
+  const { canAccessApp, initialized } = useShellRole();
   const pathname = usePathname() ?? "/";
   const router = useRouter();
   const { getIdToken } = useShellSession();
@@ -154,6 +169,16 @@ export function ProxyIframePool() {
     (appId: string) => {
       const iframe = iframeRefs.current[appId];
       if (!iframe?.contentWindow) return;
+
+      try {
+        if (isIframeErrorDocument(iframe.contentDocument)) {
+          readyAppsRef.current.delete(appId);
+          setErrors((prev) => ({ ...prev, [appId]: true }));
+          return;
+        }
+      } catch {
+        // Cross-origin embeds cannot be inspected.
+      }
 
       readyAppsRef.current.add(appId);
       void sendTokenTo(iframe, appId);
@@ -283,6 +308,23 @@ export function ProxyIframePool() {
   }, [router]);
 
   // ------------------------------------------------------------------
+  // Reload an iframe when shell preferences change (e.g. K Risk brand)
+  // ------------------------------------------------------------------
+
+  React.useEffect(() => {
+    function onReloadRequest(event: Event) {
+      const appId = (event as CustomEvent<string>).detail;
+      const iframe = iframeRefs.current[appId];
+      if (!iframe) return;
+      readyAppsRef.current.delete(appId);
+      iframe.src = iframe.src;
+    }
+
+    window.addEventListener(SHELL_RELOAD_IFRAME_EVENT, onReloadRequest);
+    return () => window.removeEventListener(SHELL_RELOAD_IFRAME_EVENT, onReloadRequest);
+  }, []);
+
+  // ------------------------------------------------------------------
   // Track minimum height (viewport minus footer)
   // ------------------------------------------------------------------
 
@@ -306,7 +348,9 @@ export function ProxyIframePool() {
 
   const proxiedConfigs = PROXIED_APPS.filter((cfg) => {
     const app = getAppById(cfg.appId as ShellAppId);
-    return app && isProxiedMount(app) && initialSrcs[cfg.appId];
+    if (!app || !isProxiedMount(app) || !initialSrcs[cfg.appId]) return false;
+    if (initialized && !canAccessApp(cfg.appId as ShellAppId)) return false;
+    return true;
   });
 
   return (
@@ -334,7 +378,12 @@ export function ProxyIframePool() {
                       {app?.name ?? cfg.appId} couldn&apos;t be reached
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Check that the app server is running, then try again.
+                      Check that the app dev server is running on port {cfg.devPort}{" "}
+                      with{" "}
+                      <code className="rounded bg-muted px-1 py-0.5">
+                        NEXT_PUBLIC_BASE_PATH={cfg.proxyPrefix}
+                      </code>
+                      , then try again.
                     </p>
                   </div>
                   <Button

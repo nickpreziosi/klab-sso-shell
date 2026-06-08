@@ -68,7 +68,13 @@
     "brandTooltip": "العلامة",
     "brandTooltipWithValue": "العلامة: {{brand}}",
     "brandKrisk": "K Risk",
-    "brandKeoCapital": "KEO Capital"
+    "brandKeoCapital": "KEO Capital",
+    "shellDevRoleMenuTitle": "Dev role",
+    "shellDevRoleAria": "Switch dev role",
+    "shellDevRoleTooltipWithValue": "Dev role: {{role}}",
+    "shellRole1": "Role 1",
+    "shellRole2": "Role 2",
+    "shellRole3": "Role 3"
   },
   "i18n": {
     "noLanguageFound": "لم يتم العثور على لغة.",
@@ -89,6 +95,7 @@
     "viewAll": "عرض الكل [{{count}}]",
     "quickLinksTitle": "روابط سريعة",
     "launch": "فتح",
+    "goTo": "انتقل إلى",
     "systemStatus": "حالة النظام",
     "documentation": "التوثيق",
     "supportInbox": "صندوق الدعم",
@@ -151,5 +158,11 @@
     "feedbackSubmitting": "جارٍ الإرسال",
     "feedbackCancel": "إلغاء",
     "feedbackSuccessToast": "شكراً — تم إرسال ملاحظاتك."
+  },
+  "unauthorized": {
+    "pageTitle": "تم رفض الوصول",
+    "pageSubtitle": "دور التطوير الحالي ليس لديه إذن لعرض هذا التطبيق.",
+    "goBack": "رجوع",
+    "goHome": "الذهاب إلى K Hub"
   }
 }

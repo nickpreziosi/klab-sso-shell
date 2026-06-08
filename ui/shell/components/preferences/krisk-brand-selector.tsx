@@ -7,102 +7,112 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
+  TooltipProvider,
 } from "@k-lab/components";
-import { Layers, Check } from "lucide-react";
+import { Check, Palette } from "lucide-react";
 import { useInternationalizationContext } from "@/lib/i18n/use-internationalization-context";
-
-const BRAND_COOKIE_NAME = "brand";
+import {
+  dispatchKriskBrandChange,
+  KRISK_BRAND_IDS,
+  readKriskBrandCookie,
+  requestIframeReload,
+  setKriskBrandCookie,
+  type KriskBrandId,
+} from "@/lib/krisk-brand";
 
 const KRISK_BRANDS = [
-  { id: "krisk", labelKey: "brandKrisk" },
-  { id: "keo-capital", labelKey: "brandKeoCapital" },
+  { id: "krisk" as const, labelKey: "brandKrisk" },
+  { id: "keo-capital" as const, labelKey: "brandKeoCapital" },
 ] as const;
-
-type KriskBrandId = (typeof KRISK_BRANDS)[number]["id"];
-
-function readBrandCookie(): KriskBrandId {
-  if (typeof document === "undefined") return "krisk";
-  const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${BRAND_COOKIE_NAME}=([^;]+)`));
-  const value = match?.[1];
-  if (value && KRISK_BRANDS.some((b) => b.id === value)) return value as KriskBrandId;
-  return "krisk";
-}
-
-function setBrandCookie(brandId: KriskBrandId) {
-  document.cookie = `${BRAND_COOKIE_NAME}=${brandId}; path=/; max-age=31536000; samesite=lax`;
-}
-
-function notifyIframes(brandId: KriskBrandId) {
-  const iframes = document.querySelectorAll<HTMLIFrameElement>("iframe");
-  iframes.forEach((iframe) => {
-    try {
-      iframe.contentWindow?.postMessage(
-        { type: "shell:preference-change", key: "brand", value: brandId },
-        window.location.origin,
-      );
-    } catch {
-      // cross-origin iframe — skip
-    }
-  });
-}
 
 export function KriskBrandSelector() {
   const { t } = useInternationalizationContext();
+  const [open, setOpen] = React.useState(false);
   const [activeBrand, setActiveBrand] = React.useState<KriskBrandId>("krisk");
 
   React.useEffect(() => {
-    setActiveBrand(readBrandCookie());
+    setActiveBrand(readKriskBrandCookie());
   }, []);
 
-  const handleSelect = React.useCallback((brandId: KriskBrandId) => {
-    setActiveBrand(brandId);
-    setBrandCookie(brandId);
-    notifyIframes(brandId);
-  }, []);
+  const handleSelect = React.useCallback(
+    (brandId: KriskBrandId) => {
+      if (brandId === activeBrand) {
+        setOpen(false);
+        return;
+      }
+      setActiveBrand(brandId);
+      setKriskBrandCookie(brandId);
+      dispatchKriskBrandChange(brandId);
+      requestIframeReload("krisk");
+      setOpen(false);
+    },
+    [activeBrand],
+  );
 
   const activeEntry = KRISK_BRANDS.find((b) => b.id === activeBrand);
+  const activeBrandName = activeEntry
+    ? t(activeEntry.labelKey, "preferences")
+    : activeBrand;
 
   return (
-    <DropdownMenu>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn("h-9 w-9")}
-              aria-label={t("brandTooltip", "preferences")}
-            >
-              <Layers className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-        </TooltipTrigger>
-        <TooltipContent side="left" align="center">
-          <p>
-            {t("brandTooltipWithValue", "preferences", {
-              brand: activeEntry ? t(activeEntry.labelKey, "preferences") : activeBrand,
-            })}
-          </p>
-        </TooltipContent>
-      </Tooltip>
-      <DropdownMenuContent side="left" align="start" className="w-44">
-        <DropdownMenuLabel>{t("brandLabel", "preferences")}</DropdownMenuLabel>
-        {KRISK_BRANDS.map((brand) => (
-          <DropdownMenuItem
-            key={brand.id}
-            onClick={() => handleSelect(brand.id)}
-            className="flex items-center justify-between"
-          >
-            {t(brand.labelKey, "preferences")}
-            {activeBrand === brand.id && <Check className="size-3.5 text-muted-foreground" />}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <TooltipProvider>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn("h-9 w-9 rounded-full")}
+                aria-label={t("brandTooltipWithValue", "preferences", { brand: activeBrandName })}
+                aria-haspopup="listbox"
+                aria-expanded={open}
+              >
+                <Palette className="h-4 w-4" aria-hidden />
+              </Button>
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+          <TooltipContent className="text-background" side="left" align="center">
+            <p>{t("brandTooltipWithValue", "preferences", { brand: activeBrandName })}</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <DropdownMenuContent side="left" align="start" className="!w-52 !px-1 py-1">
+          <div className="border-b border-border px-3 py-1.5">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              {t("brandLabel", "preferences")}
+            </p>
+          </div>
+
+          {KRISK_BRAND_IDS.map((brandId) => {
+            const entry = KRISK_BRANDS.find((b) => b.id === brandId);
+            const name = entry ? t(entry.labelKey, "preferences") : brandId;
+            return (
+              <DropdownMenuItem
+                key={brandId}
+                onSelect={(event) => {
+                  event.preventDefault();
+                  handleSelect(brandId);
+                }}
+                className={cn(
+                  "flex cursor-pointer items-center gap-2 px-3 py-2",
+                  brandId === activeBrand && "bg-accent/50",
+                )}
+                aria-selected={brandId === activeBrand}
+              >
+                <span className="flex-1 text-sm">{name}</span>
+                {brandId === activeBrand && (
+                  <Check className="ms-1 h-4 w-4 shrink-0 text-accent-brand" aria-hidden />
+                )}
+              </DropdownMenuItem>
+            );
+          })}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </TooltipProvider>
   );
 }

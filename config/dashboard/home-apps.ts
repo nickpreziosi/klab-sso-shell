@@ -1,4 +1,5 @@
 import { getAppById, type ShellAppConfig, type ShellAppId } from "@/config/apps/registry";
+import type { KriskBrandId } from "@/lib/krisk-brand";
 
 /** Home carousel order: K Hub (shell home) first, then child applications. */
 const HOME_APP_ORDER: ShellAppId[] = ["shell", "kbpm", "krisk", "kleads"];
@@ -24,26 +25,15 @@ export const HOME_CARD_ENTRIES: HomeCardEntry[] = HOME_CARD_ORDER.map((id) => ({
   app: getAppById(id)!,
 }));
 
-const HERO_BG_ORANGE =
+/** K Risk orange hero background — default carousel backdrop. */
+export const HERO_BACKGROUND =
   "/assets/bg-orange-31e3a085-52b5-479d-8fd6-4b2189602639.png";
-const HERO_BG_GRADIENT =
-  "/assets/bg-gradient-a8d6fe36-6a6e-41fd-9e60-14c91240e210.png";
-const HERO_BG_WAVE = "/assets/bg-wave-752a21dd-5ebb-4598-ab10-89967ce4def7.png";
 
-/** Cycles wave → orange → gradient across carousel slides (K Hub starts on wave). */
-const HERO_BACKGROUND_CYCLE = [HERO_BG_WAVE, HERO_BG_ORANGE, HERO_BG_GRADIENT] as const;
+/** KEO Capital green hero — same composition as the K Risk banner. */
+export const HERO_BACKGROUND_KEO_CAPITAL = "/assets/bg-green-keo-capital.png";
 
-export function getHeroSlideBackground(slideIndex: number): string {
-  return HERO_BACKGROUND_CYCLE[slideIndex % HERO_BACKGROUND_CYCLE.length];
-}
+export const HERO_BACKGROUND_IMAGE_CLASS = "object-cover object-right-bottom";
 
-/** Orange and wave slides use a dark scrim and light foreground text. */
-export function heroSlideUsesLightForeground(backgroundSrc: string): boolean {
-  return backgroundSrc === HERO_BG_ORANGE || backgroundSrc === HERO_BG_WAVE;
-}
-
-export function getHeroSlideImageClass(backgroundSrc: string): string {
-  return backgroundSrc === HERO_BG_ORANGE
-    ? "object-cover object-right-bottom"
-    : "object-cover object-bottom";
+export function getHeroBackground(brandId: KriskBrandId): string {
+  return brandId === "keo-capital" ? HERO_BACKGROUND_KEO_CAPITAL : HERO_BACKGROUND;
 }

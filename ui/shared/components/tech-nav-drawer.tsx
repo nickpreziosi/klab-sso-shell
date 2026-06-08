@@ -18,8 +18,10 @@ import {
 import { Check, ChevronDown, X } from "lucide-react";
 import { ThemeAwareLogo } from "@/ui/shared/components/theme-aware-logo";
 import { SWITCHER_APPS, appShowsBrandLogo, type ShellAppId } from "@/config/apps/registry";
+import { filterAppsByRole } from "@/lib/roles/shell-roles";
 import { appDefaultHref } from "@/lib/navigation/resolve-nav";
 import { useActiveApp } from "@/ui/shell/providers/active-app-provider";
+import { useShellRole } from "@/ui/shell/providers/shell-role-provider";
 
 export interface TechNavDrawerProps {
   currentAppId: ShellAppId;
@@ -35,12 +37,18 @@ export interface TechNavDrawerProps {
 export function TechNavDrawer({ currentAppId, trigger, className, onAppSelect }: TechNavDrawerProps) {
   const router = useRouter();
   const { setActiveAppId } = useActiveApp();
+  const { activeRole, initialized } = useShellRole();
   const [open, setOpen] = React.useState(false);
   const drawerContentRef = React.useRef<HTMLDivElement>(null);
   useCloseOnDesktopResize(open, setOpen, MOBILE_BREAKPOINT_PX);
   useScopedTabNavigation({ enabled: open, containers: [drawerContentRef] });
 
-  const currentApp = SWITCHER_APPS.find((a) => a.id === currentAppId) ?? SWITCHER_APPS[0];
+  const accessibleApps = React.useMemo(
+    () => (initialized ? filterAppsByRole(SWITCHER_APPS, activeRole) : SWITCHER_APPS),
+    [activeRole, initialized],
+  );
+
+  const currentApp = accessibleApps.find((a) => a.id === currentAppId) ?? accessibleApps[0];
   const CurrentLogo = currentApp.logo;
   const currentShowsLogo = appShowsBrandLogo(currentApp);
 
@@ -99,7 +107,7 @@ export function TechNavDrawer({ currentAppId, trigger, className, onAppSelect }:
           </div>
           <div className="flex-1 overflow-y-auto overscroll-contain">
             <div className="grid grid-cols-2 gap-2 p-3">
-              {SWITCHER_APPS.map((app) => {
+              {accessibleApps.map((app) => {
                 const AppLogo = app.logo;
                 const isCurrent = app.id === currentAppId;
                 const showsLogo = appShowsBrandLogo(app);

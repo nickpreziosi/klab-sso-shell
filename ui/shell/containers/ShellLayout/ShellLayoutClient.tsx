@@ -26,6 +26,8 @@ import { getAppById } from "@/config/apps/registry";
 import { isProxiedMount } from "@/lib/krisk-proxy";
 import { getPrimaryNav, getAccordions } from "@/lib/navigation/resolve-nav";
 import { isPublicPath } from "@/lib/auth/public-routes";
+import { ShellAppGuard } from "@/ui/shell/components/shell-app-guard";
+import { KriskBrandSync } from "@/ui/shell/providers/krisk-brand-sync";
 
 interface ShellLayoutClientProps {
   children: React.ReactNode;
@@ -105,7 +107,9 @@ function ShellLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen-dvh overflow-hidden bg-background relative">
+    <ShellAppGuard>
+      <KriskBrandSync />
+      <div className="flex h-screen-dvh overflow-hidden bg-background relative">
       <ShellPreferencesBar />
       <ShellSidebar
         appId={activeAppId}
@@ -180,6 +184,7 @@ function ShellLayoutContent({ children }: { children: React.ReactNode }) {
         </div>
       </div>
     </div>
+    </ShellAppGuard>
   );
 }
 

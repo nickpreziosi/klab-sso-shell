@@ -68,7 +68,13 @@
     "brandTooltip": "Marca",
     "brandTooltipWithValue": "Marca: {{brand}}",
     "brandKrisk": "K Risk",
-    "brandKeoCapital": "KEO Capital"
+    "brandKeoCapital": "KEO Capital",
+    "shellDevRoleMenuTitle": "Dev role",
+    "shellDevRoleAria": "Switch dev role",
+    "shellDevRoleTooltipWithValue": "Dev role: {{role}}",
+    "shellRole1": "Role 1",
+    "shellRole2": "Role 2",
+    "shellRole3": "Role 3"
   },
   "i18n": {
     "noLanguageFound": "No se encontró ningún idioma.",
@@ -89,6 +95,7 @@
     "viewAll": "Ver Todos [{{count}}]",
     "quickLinksTitle": "ACCESOS RÁPIDOS",
     "launch": "Abrir",
+    "goTo": "Ir a",
     "systemStatus": "Estado del Sistema",
     "documentation": "Documentación",
     "supportInbox": "Bandeja de Soporte",
@@ -151,5 +158,11 @@
     "feedbackSubmitting": "Enviando",
     "feedbackCancel": "Cancelar",
     "feedbackSuccessToast": "Gracias — tus comentarios fueron enviados."
+  },
+  "unauthorized": {
+    "pageTitle": "Acceso denegado",
+    "pageSubtitle": "Tu rol de desarrollo actual no tiene permiso para ver esta aplicación.",
+    "goBack": "Volver",
+    "goHome": "Ir a K Hub"
   }
 }

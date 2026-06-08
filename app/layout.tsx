@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import "./globals.css";
 import { getLocale, getMessages } from "next-intl/server";
 import { Toaster } from "@k-lab/components";
-import { Sora } from "next/font/google";
+import { Roboto, Sora } from "next/font/google";
 import { AppProviders } from "./providers";
 import { ShellLayoutClient } from "@/ui/shell/containers/ShellLayout/ShellLayoutClient";
 import { LanguageCookieSync } from "@/ui/shared/providers/language-cookie-sync";
@@ -14,6 +14,13 @@ const sora = Sora({
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
   variable: "--font-sora",
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  display: "swap",
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -30,7 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const initialSidebarCollapsed = sidebarCookie?.value === "true";
 
   return (
-    <html lang={locale} dir={dir} className={sora.variable} suppressHydrationWarning>
+    <html lang={locale} dir={dir} className={`${sora.variable} ${roboto.variable}`} suppressHydrationWarning>
       <head>
         {/* eslint-disable-next-line @next/next/no-sync-scripts -- intentional blocking document init to prevent theme flicker */}
         <script src="/scripts/shell-document-init.js" />

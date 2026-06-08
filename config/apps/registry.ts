@@ -23,8 +23,6 @@ import {
   ChartColumn,
   FilePen,
   Settings,
-  Building2,
-  Banknote,
   Users,
   Factory,
   ArrowLeftRight,
@@ -209,8 +207,6 @@ export const APPS: ShellAppConfig[] = [
     },
     primaryNav: [
       { segment: "", label: "Dashboard", i18nKey: "dashboard", icon: LayoutDashboard },
-      { segment: "issuers", label: "Issuers", i18nKey: "issuers", icon: Building2 },
-      { segment: "acquirers", label: "Acquirers", i18nKey: "acquirers", icon: Banknote },
       { segment: "buyers", label: "Buyers", i18nKey: "buyers", icon: Users },
       { segment: "suppliers", label: "Suppliers", i18nKey: "suppliers", icon: Factory },
       { segment: "transactions", label: "Transactions", i18nKey: "transactions", icon: ArrowLeftRight },

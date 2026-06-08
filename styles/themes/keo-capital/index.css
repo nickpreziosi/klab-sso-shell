@@ -1,0 +1,94 @@
+/* KEO Capital Theme — activated by .brand-keo-capital on <html>. */
+
+html.brand-keo-capital {
+  --font-sans: var(--font-roboto);
+
+  --base-hue: 202;
+  --base-saturation: 43%;
+  --base-lightness: 27%;
+  --base: var(--base-hue) var(--base-saturation) var(--base-lightness);
+
+  --accent-brand-h: 148;
+  --accent-brand-s: 69%;
+  --accent-brand-l: 54%;
+  --accent-brand: var(--accent-brand-h) var(--accent-brand-s) var(--accent-brand-l);
+  --call-action: var(--accent-brand);
+
+  --background: 0 0% 100%;
+  --foreground: 202 43% 27%;
+  --surface: var(--background);
+  --primary-foreground: 0 0% 98%;
+  --secondary: 202 20% 96%;
+  --muted: 202 43% 34%;
+  --input-placeholder: 202 43% 28%;
+  --accent: 202 20% 94%;
+  --border: 202 20% 88%;
+  --ring: var(--foreground);
+  --sidebar-bg: 202 20% 98%;
+  --sidebar-accent: 202 20% 95%;
+
+  --keo-navy: 202 43% 27%;
+  --keo-green: 148 69% 54%;
+  --keo-light-green: 120 33% 94%;
+  --keo-orange: 33 82% 51%;
+  --keo-red: 6 82% 49%;
+
+  --success: var(--accent-brand);
+  --warning: var(--keo-orange);
+  --destructive: 6 82% 58%;
+
+  --auth-primary: 202 43% 27%;
+
+  --chart-blue: hsl(188 60% 45%);
+  --chart-neutral-c: hsl(33 80% 52%);
+  --chart-neutral-b: hsl(202 45% 40%);
+  --chart-neutral-a: hsl(148 38% 76%);
+}
+
+html.brand-keo-capital.dark {
+  --font-sans: var(--font-roboto);
+
+  --base-hue: 202;
+  --base-saturation: 43%;
+  --base-lightness: 27%;
+  --base: var(--base-hue) var(--base-saturation) var(--base-lightness);
+
+  --accent-brand-h: 148;
+  --accent-brand-s: 69%;
+  --accent-brand-l: 54%;
+  --accent-brand: var(--accent-brand-h) var(--accent-brand-s) var(--accent-brand-l);
+  --call-action: var(--accent-brand);
+
+  --background: 202 43% 12%;
+  --foreground: 0 0% 98%;
+  --surface: var(--background);
+  --primary-foreground: var(--base);
+  --secondary: 202 30% 18%;
+  --muted: 202 20% 70%;
+  --input-placeholder: 202 15% 55%;
+  --accent: 202 25% 20%;
+  --border: 202 25% 22%;
+  --ring: var(--foreground);
+  --sidebar-bg: 202 43% 10%;
+  --sidebar-accent: 202 30% 16%;
+
+  --success: var(--accent-brand);
+  --warning: var(--keo-orange);
+  --destructive: 6 82% 58%;
+
+  --auth-primary: 202 43% 27%;
+
+  --chart-blue: hsl(188 60% 52%);
+  --chart-neutral-c: hsl(33 80% 58%);
+  --chart-neutral-b: hsl(202 45% 55%);
+  --chart-neutral-a: hsl(148 38% 68%);
+}
+
+html.brand-keo-capital body {
+  font-family: var(--font-roboto), sans-serif;
+}
+
+html.brand-keo-capital.dark [data-radix-popper-content-wrapper] [role="menu"],
+html.brand-keo-capital.dark [data-radix-popper-content-wrapper] [role="listbox"] {
+  background-color: hsl(var(--background) / 0.5) !important;
+}

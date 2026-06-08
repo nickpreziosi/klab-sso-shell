@@ -17,8 +17,10 @@ import {
 import { ChevronDown, Check } from "lucide-react";
 import { ThemeAwareLogo } from "@/ui/shared/components/theme-aware-logo";
 import { SWITCHER_APPS, appShowsBrandLogo, type ShellAppId } from "@/config/apps/registry";
+import { filterAppsByRole } from "@/lib/roles/shell-roles";
 import { appDefaultHref } from "@/lib/navigation/resolve-nav";
 import { useActiveApp } from "@/ui/shell/providers/active-app-provider";
+import { useShellRole } from "@/ui/shell/providers/shell-role-provider";
 
 export interface GlobalNavLogoProps {
   currentAppId: ShellAppId;
@@ -35,9 +37,15 @@ export interface GlobalNavLogoProps {
 export function GlobalNavLogo({ currentAppId, collapsed, alt }: GlobalNavLogoProps) {
   const router = useRouter();
   const { setActiveAppId } = useActiveApp();
+  const { activeRole, initialized } = useShellRole();
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
-  const currentApp = SWITCHER_APPS.find((a) => a.id === currentAppId) ?? SWITCHER_APPS[0];
+  const accessibleApps = React.useMemo(
+    () => (initialized ? filterAppsByRole(SWITCHER_APPS, activeRole) : SWITCHER_APPS),
+    [activeRole, initialized],
+  );
+
+  const currentApp = accessibleApps.find((a) => a.id === currentAppId) ?? accessibleApps[0];
   const CurrentLogo = currentApp.logo;
   const currentShowsLogo = appShowsBrandLogo(currentApp);
 
@@ -106,7 +114,7 @@ export function GlobalNavLogo({ currentAppId, collapsed, alt }: GlobalNavLogoPro
         className="w-56 !px-1"
       >
         <div className="flex flex-col">
-          {SWITCHER_APPS.map((app) => {
+          {accessibleApps.map((app) => {
             const AppLogo = app.logo;
             const isCurrent = app.id === currentAppId;
             const isShell = app.id === "shell";

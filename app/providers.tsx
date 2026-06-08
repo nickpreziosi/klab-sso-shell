@@ -2,6 +2,7 @@
 
 import type { AbstractIntlMessages } from "next-intl";
 import { AuthProvider } from "@/ui/user-management/providers/auth-provider";
+import { ShellRoleProvider } from "@/ui/shell/providers/shell-role-provider";
 import { AppLanguageProvider } from "@/ui/shared/contexts/app-language-context";
 import { DocumentDirectionProvider, ThemeProvider } from "@k-lab/components";
 import { IntlClientAdapter } from "@/ui/shared/providers/intl-client-adapter";
@@ -37,7 +38,9 @@ export function AppProviders({ locale, messages, children }: AppProvidersProps) 
       >
         <ThemeProvider defaultTheme="system" storageKey="k-lab-components-theme">
           <DocumentDirectionProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              <ShellRoleProvider>{children}</ShellRoleProvider>
+            </AuthProvider>
           </DocumentDirectionProvider>
         </ThemeProvider>
       </IntlClientAdapter>
