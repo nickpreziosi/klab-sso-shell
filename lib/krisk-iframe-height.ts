@@ -65,3 +65,7 @@ export type ShellSendTokenMessage = {
   type: typeof SHELL_SEND_TOKEN_MESSAGE;
   token: string | null;
 };
+
+// iframe → Shell: request the current token (sent by proxy on mount to handle
+// the race where the initial klab-shell-send-token arrives before hydration).
+export const SHELL_REQUEST_TOKEN_MESSAGE = "klab-shell-request-token" as const;

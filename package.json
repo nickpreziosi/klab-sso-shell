@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
-    "dev:all": "concurrently --names \"SHELL,KRISK,KBPM,KLEADS\" --prefix-colors \"blue,cyan,green,magenta\" \"next dev --hostname 127.0.0.1\" \"npm --prefix ../ux-krisk run dev\" \"npm --prefix ../keo-core-admin-web-ui run dev\" \"npm --prefix ../ux-klead run dev\"",
+    "dev:all": "concurrently --names \"SHELL,KRISK,KBPM,KLEADS\" --prefix-colors \"blue,cyan,green,magenta\" \"next dev --hostname 127.0.0.1\" \"npm --prefix ../ux-krisk run dev\" \"npm --prefix ../keo-core-admin-web-ui run dev\" \"npm --prefix ../klab-gbl-kleads-portal-web-ui run dev\"",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint .",

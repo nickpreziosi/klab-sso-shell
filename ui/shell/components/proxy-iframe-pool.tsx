@@ -13,6 +13,7 @@ import {
   isShellEmbedHeightMessage,
   isShellEmbedNavigateMessage,
   SHELL_EMBED_WHEEL_MESSAGE,
+  SHELL_REQUEST_TOKEN_MESSAGE,
   SHELL_SEND_NAVIGATE_MESSAGE,
   SHELL_SEND_TOKEN_MESSAGE,
 } from "@/lib/krisk-iframe-height";
@@ -237,6 +238,16 @@ export function ProxyIframePool() {
       );
       if (!sendingEntry) return;
       const [appId] = sendingEntry;
+
+      if (
+        typeof event.data === "object" &&
+        event.data !== null &&
+        (event.data as { type?: unknown }).type === SHELL_REQUEST_TOKEN_MESSAGE
+      ) {
+        const iframe = iframeRefs.current[appId];
+        if (iframe) void sendTokenTo(iframe, appId);
+        return;
+      }
 
       if (isShellEmbedHeightMessage(event.data)) {
         setHeights((prev) => ({ ...prev, [appId]: event.data.height }));
