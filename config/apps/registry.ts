@@ -1,11 +1,11 @@
 import type * as React from "react";
 import {
-  KLabLogo,
   KRiskLogo,
-  KRailsLogo,
   KBpmLogo,
   KLeadsLogo,
+  KRailsLogo,
 } from "@k-lab/components";
+import { KHubLogo } from "@/ui/shared/components/k-hub-logo";
 import {
   LayoutDashboard,
   FilePlus,
@@ -23,7 +23,6 @@ import {
   ChartColumn,
   FilePen,
   Settings,
-  Files,
   Building2,
   Banknote,
   Users,
@@ -40,11 +39,11 @@ import {
 } from "lucide-react";
 import { getProxiedApp } from "./proxy-config";
 
-export type ShellAppId = "shell" | "krisk" | "invoice" | "kbpm" | "kleads";
+export type ShellAppId = "shell" | "krisk" | "kbpm" | "kleads" | "krails";
 
 /** Theme-aware logo component as exported by `@k-lab/components`. */
 export type LogoComponent = React.ComponentType<
-  { variant?: "dark" | "light"; className?: string } & Record<string, unknown>
+  { variant?: "dark" | "light" | "color" | "white" | "black"; className?: string } & Record<string, unknown>
 >;
 
 export type NavItemConfig = {
@@ -81,6 +80,8 @@ export type ShellAppConfig = {
   description?: string;
   /** Icon shown on the home dashboard app card (distinct from nav item icons). */
   dashboardIcon?: LucideIcon;
+  /** When true, the app is not yet available — hidden from the switcher and shown as "Coming Soon" on the dashboard. */
+  comingSoon?: boolean;
   /**
    * Permission keys a user must hold to access this app.
    * Empty or undefined = no restriction (available to all authenticated users).
@@ -112,12 +113,12 @@ export type ShellAppConfig = {
 export const SHELL_APP: ShellAppConfig = {
   id: "shell",
   slug: "",
-  name: "K Rails",
-  logo: KRailsLogo,
+  name: "K Hub",
+  logo: KHubLogo,
   showBrandLogo: true,
   defaultSegment: "",
   description:
-    "K Rails is a programmable trust and execution layer for institutional money movement—determining not only how money moves, but whether it should, with defensible proof.",
+    "Your central hub for accessing and managing all K-Lab products and services.",
   primaryNav: [{ segment: "", label: "Dashboard", i18nKey: "dashboard", icon: LayoutDashboard }],
 };
 
@@ -151,7 +152,7 @@ export const APPS: ShellAppConfig[] = [
   {
     id: "krisk",
     slug: "krisk",
-    name: "Risk Analysis",
+    name: "K Risk",
     logo: KRiskLogo,
     defaultSegment: "",
     description:
@@ -192,26 +193,9 @@ export const APPS: ShellAppConfig[] = [
     ],
   },
   {
-    id: "invoice",
-    slug: "invoice",
-    name: "Invoice Manager",
-    logo: KLabLogo,
-    defaultSegment: "",
-    description:
-      "Create, manage, and track invoices across your organization with streamlined workflows and real-time visibility.",
-    dashboardIcon: Files,
-    permissions: ["invoice:view"],
-    prodUrl: "https://invoice.klab.com",
-    primaryNav: [
-      { segment: "", label: "Invoice Dashboard", i18nKey: "invoiceDashboard", icon: LayoutDashboard },
-      { segment: "create", label: "Create New Invoice", i18nKey: "createInvoice", icon: FilePlus },
-      { segment: "create-multiple", label: "Create Multiple Invoices", i18nKey: "createMultipleInvoices", icon: Files },
-    ],
-  },
-  {
     id: "kbpm",
     slug: "kbpm",
-    name: "Admin Portal",
+    name: "KBPM",
     logo: KBpmLogo,
     defaultSegment: "",
     description:
@@ -236,7 +220,7 @@ export const APPS: ShellAppConfig[] = [
   {
     id: "kleads",
     slug: "kleads",
-    name: "Lead Generation",
+    name: "K Leads",
     logo: KLeadsLogo,
     defaultSegment: "",
     description:
@@ -268,13 +252,24 @@ export const APPS: ShellAppConfig[] = [
       },
     ],
   },
+  {
+    id: "krails",
+    slug: "krails",
+    name: "K Rails",
+    logo: KRailsLogo,
+    comingSoon: true,
+    defaultSegment: "",
+    description:
+      "A programmable trust and execution layer for institutional money movement—determining not only how money moves, but whether it should, with defensible proof.",
+    primaryNav: [],
+  },
 ];
 
-/** All apps shown in the global switcher (includes the shell home). */
-export const SWITCHER_APPS = APPS;
+/** Apps shown in the global switcher — excludes coming-soon products. */
+export const SWITCHER_APPS = APPS.filter((a) => !a.comingSoon);
 
 /** Child apps only (everything except the shell host). */
-export const CHILD_APPS = APPS.filter((a) => a.id !== "shell");
+export const CHILD_APPS = APPS.filter((a) => a.id !== "shell" && !a.comingSoon);
 
 export function getAppById(id: ShellAppId): ShellAppConfig | undefined {
   return APPS.find((a) => a.id === id);

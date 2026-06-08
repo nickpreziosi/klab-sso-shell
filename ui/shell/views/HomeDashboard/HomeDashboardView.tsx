@@ -15,7 +15,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -202,34 +201,56 @@ function HeroCarousel() {
 }
 
 function AppCard({ entry }: { entry: HomeCardEntry }) {
-  const Icon = entry.app.dashboardIcon;
+  const Logo = entry.app.logo;
   const href = appDefaultHref(entry.app);
+  const isComingSoon = entry.app.comingSoon === true;
   const { t } = useInternationalizationContext();
   const appName = t(`${entry.app.id}.name`, "apps") || entry.app.name;
   const appDesc = t(`${entry.app.id}.description`, "apps") || entry.app.description;
 
+  const cardInner = (
+    <Card
+      className={cn(
+        "flex h-full w-full flex-col transition-all duration-200",
+        isComingSoon
+          ? "cursor-default opacity-55"
+          : "hover:border-accent-brand/30 hover:shadow-[0_4px_24px_-6px_hsl(var(--accent-brand)/0.12)]",
+      )}
+    >
+      <CardHeader className="flex flex-col gap-4 space-y-0">
+        {Logo && (
+          <>
+            <div className="flex items-start">
+              <Logo className="h-7 w-auto max-w-[120px]" variant="color" aria-hidden />
+            </div>
+            <span className="sr-only">{appName}</span>
+          </>
+        )}
+        <CardDescription className="leading-relaxed">{appDesc}</CardDescription>
+      </CardHeader>
+      <CardFooter className="flex-col items-start gap-0 border-t border-border p-4">
+        {isComingSoon ? (
+          <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+            {t("comingSoon", "home")}
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-brand group-hover:underline">
+            {t("open", "home")}
+            <ArrowRight className="h-3.5 w-3.5" />
+          </span>
+        )}
+      </CardFooter>
+    </Card>
+  );
+
+  if (isComingSoon) {
+    return <div className="group relative h-full">{cardInner}</div>;
+  }
+
   return (
     <div className="group relative h-full">
       <Link href={href} className="block h-full">
-        <Card className="flex h-full w-full flex-col transition-all duration-200 hover:border-accent-brand/30 hover:shadow-[0_4px_24px_-6px_hsl(var(--accent-brand)/0.12)]">
-          <CardHeader className="flex flex-col gap-4 space-y-0">
-            {Icon && (
-              <div className="flex h-10 w-10 items-center justify-center rounded-app-radius bg-muted-foreground/10 text-muted-foreground transition-all group-hover:bg-accent-brand/10 group-hover:text-accent-brand">
-                <Icon className="h-5 w-5" aria-hidden />
-              </div>
-            )}
-            <div className="space-y-1.5">
-              <CardTitle className="text-base leading-snug">{appName}</CardTitle>
-              <CardDescription className="leading-relaxed">{appDesc}</CardDescription>
-            </div>
-          </CardHeader>
-          <CardFooter className="mt-auto flex-col items-start gap-0 border-t border-border pt-4">
-            <span className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-brand group-hover:underline">
-              {t("open", "home")}
-              <ArrowRight className="h-3.5 w-3.5" />
-            </span>
-          </CardFooter>
-        </Card>
+        {cardInner}
       </Link>
     </div>
   );

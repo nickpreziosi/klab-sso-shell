@@ -33,9 +33,6 @@
     "kScoring": "K Scoring",
     "writeUp": "Análisis",
     "configuration": "Configuración",
-    "invoiceDashboard": "Panel de facturas",
-    "createInvoice": "Crear nueva factura",
-    "createMultipleInvoices": "Crear múltiples facturas",
     "issuers": "Emisores",
     "acquirers": "Adquirentes",
     "buyers": "Compradores",
@@ -80,8 +77,9 @@
   },
   "home": {
     "applicationsTitle": "Aplicaciones",
-    "applicationsSubtitle": "Abre una aplicación de K Rails para continuar tu trabajo.",
+    "applicationsSubtitle": "Abre una aplicación de K-Lab para continuar tu trabajo.",
     "open": "Abrir",
+    "comingSoon": "Próximamente",
     "exploreCta": "Explorar {{name}}",
     "prevSlide": "Diapositiva anterior",
     "nextSlide": "Diapositiva siguiente",
@@ -90,23 +88,23 @@
   },
   "apps": {
     "shell": {
+      "name": "K Hub",
+      "description": "Tu centro de acceso y gestión de todos los productos y servicios de K-Lab."
+    },
+    "krails": {
       "name": "K Rails",
-      "description": "K Rails es una capa de ejecución y confianza programable para el movimiento institucional de dinero: determina no solo cómo se mueve el dinero, sino si debería moverse, con prueba defendible."
+      "description": "Una capa de ejecución y confianza programable para el movimiento institucional de dinero: determina no solo cómo se mueve el dinero, sino si debería moverse, con prueba defendible."
     },
     "krisk": {
-      "name": "Análisis de riesgos",
+      "name": "K Risk",
       "description": "Motor de inteligencia integral que integra el historial interno y fuentes de datos externas para fortalecer la suscripción y proteger la cartera."
     },
-    "invoice": {
-      "name": "Gestor de facturas",
-      "description": "Crea, gestiona y rastrea facturas en toda tu organización con flujos de trabajo optimizados y visibilidad en tiempo real."
-    },
     "kbpm": {
-      "name": "Portal de administración",
+      "name": "KBPM",
       "description": "Cumplimiento normativo y automatización de procesos empresariales para incorporación, enrutamiento, emisión de tarjetas y flujos de trabajo unificados."
     },
     "kleads": {
-      "name": "Generación de leads",
+      "name": "K Leads",
       "description": "Generación de leads que impulsa mayor conversión de prospectos, maximiza la eficiencia comercial y acelera el crecimiento."
     }
   },

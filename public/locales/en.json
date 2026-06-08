@@ -33,9 +33,6 @@
     "kScoring": "K Scoring",
     "writeUp": "Write-up",
     "configuration": "Configuration",
-    "invoiceDashboard": "Invoice Dashboard",
-    "createInvoice": "Create New Invoice",
-    "createMultipleInvoices": "Create Multiple Invoices",
     "issuers": "Issuers",
     "acquirers": "Acquirers",
     "buyers": "Buyers",
@@ -80,8 +77,9 @@
   },
   "home": {
     "applicationsTitle": "Applications",
-    "applicationsSubtitle": "Open a K Rails application to continue your work.",
+    "applicationsSubtitle": "Open a K-Lab application to continue your work.",
     "open": "Open",
+    "comingSoon": "Coming Soon",
     "exploreCta": "Explore {{name}}",
     "prevSlide": "Previous slide",
     "nextSlide": "Next slide",
@@ -90,23 +88,23 @@
   },
   "apps": {
     "shell": {
+      "name": "K Hub",
+      "description": "Your central hub for accessing and managing all K-Lab products and services."
+    },
+    "krails": {
       "name": "K Rails",
-      "description": "K Rails is a programmable trust and execution layer for institutional money movement—determining not only how money moves, but whether it should, with defensible proof."
+      "description": "A programmable trust and execution layer for institutional money movement—determining not only how money moves, but whether it should, with defensible proof."
     },
     "krisk": {
-      "name": "Risk Analysis",
+      "name": "K Risk",
       "description": "Comprehensive intelligence engine that integrates internal history and external data sources to fortify underwriting and protect the portfolio."
     },
-    "invoice": {
-      "name": "Invoice Manager",
-      "description": "Create, manage, and track invoices across your organization with streamlined workflows and real-time visibility."
-    },
     "kbpm": {
-      "name": "Admin Portal",
+      "name": "KBPM",
       "description": "Regulatory compliance and business process automation for onboarding, routing, card issuance, and unified workflows."
     },
     "kleads": {
-      "name": "Lead Generation",
+      "name": "K Leads",
       "description": "Lead generation that drives higher prospect conversion, maximizes commercial efficiency, and accelerates growth."
     }
   },

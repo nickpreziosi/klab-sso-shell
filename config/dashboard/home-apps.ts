@@ -1,12 +1,9 @@
 import { getAppById, type ShellAppConfig, type ShellAppId } from "@/config/apps/registry";
 
-/** Home carousel order: K Rails (shell home) first, then child applications. */
-const HOME_APP_ORDER: ShellAppId[] = ["shell", "invoice", "kbpm", "krisk", "kleads"];
+/** Home carousel order: K Hub (shell home) first, then child applications. */
+const HOME_APP_ORDER: ShellAppId[] = ["shell", "kbpm", "krisk", "kleads"];
 
-const HOME_CARD_ORDER = ["kbpm", "krisk", "kleads"] as const satisfies readonly Exclude<
-  ShellAppId,
-  "shell"
->[];
+const HOME_CARD_ORDER = ["kbpm", "krisk", "kleads", "krails"] as const satisfies readonly ShellAppId[];
 
 export type HomeAppEntry = {
   app: ShellAppConfig;
@@ -14,15 +11,15 @@ export type HomeAppEntry = {
 
 export type HomeCardEntry = HomeAppEntry;
 
-/** K Rails hero copy — re-exported for the auth brand panel. */
-export const K_RAILS_BRAND_DESCRIPTION = getAppById("shell")!.description!;
+/** K Rails brand description — re-exported for the auth brand panel. */
+export const K_RAILS_BRAND_DESCRIPTION = getAppById("krails")!.description!;
 
-/** Carousel slides (includes K Rails shell home). */
+/** Carousel slides (includes K Hub shell home). */
 export const HOME_CAROUSEL_ENTRIES: HomeAppEntry[] = HOME_APP_ORDER.map((id) => ({
   app: getAppById(id)!,
 }));
 
-/** Dashboard cards for child applications only (excludes K Rails home). */
+/** Dashboard cards for all featured applications. */
 export const HOME_CARD_ENTRIES: HomeCardEntry[] = HOME_CARD_ORDER.map((id) => ({
   app: getAppById(id)!,
 }));
@@ -33,7 +30,7 @@ const HERO_BG_GRADIENT =
   "/assets/bg-gradient-a8d6fe36-6a6e-41fd-9e60-14c91240e210.png";
 const HERO_BG_WAVE = "/assets/bg-wave-752a21dd-5ebb-4598-ab10-89967ce4def7.png";
 
-/** Cycles wave → orange → gradient across carousel slides (K Rails starts on wave). */
+/** Cycles wave → orange → gradient across carousel slides (K Hub starts on wave). */
 const HERO_BACKGROUND_CYCLE = [HERO_BG_WAVE, HERO_BG_ORANGE, HERO_BG_GRADIENT] as const;
 
 export function getHeroSlideBackground(slideIndex: number): string {
