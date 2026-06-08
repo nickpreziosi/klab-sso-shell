@@ -84,7 +84,21 @@
     "prevSlide": "الشريحة السابقة",
     "nextSlide": "الشريحة التالية",
     "carouselSlides": "شرائح العرض",
-    "goToSlide": "الانتقال إلى {{name}}"
+    "goToSlide": "الانتقال إلى {{name}}",
+    "ecosystemTitle": "منتجات النظام البيئي",
+    "viewAll": "عرض الكل [{{count}}]",
+    "quickLinksTitle": "روابط سريعة",
+    "launch": "فتح",
+    "systemStatus": "حالة النظام",
+    "documentation": "التوثيق",
+    "supportInbox": "صندوق الدعم",
+    "badgePopular": "شائع",
+    "badgeUpdated": "محدَّث",
+    "badgeBeta": "تجريبي",
+    "updateLabel": "تحديث المنصة",
+    "updateTitle": "ميزات تحليلية جديدة",
+    "updateDescription": "النمذجة السلوكية التنبؤية نشطة الآن في نواة K Risk.",
+    "changelog": "سجل التغييرات"
   },
   "apps": {
     "shell": {

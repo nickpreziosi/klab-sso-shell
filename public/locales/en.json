@@ -84,7 +84,21 @@
     "prevSlide": "Previous slide",
     "nextSlide": "Next slide",
     "carouselSlides": "Carousel slides",
-    "goToSlide": "Go to {{name}}"
+    "goToSlide": "Go to {{name}}",
+    "ecosystemTitle": "ACTIVE ECOSYSTEM PRODUCTS",
+    "viewAll": "View All [{{count}}]",
+    "quickLinksTitle": "QUICK LINKS",
+    "launch": "Launch",
+    "systemStatus": "System Status",
+    "documentation": "Documentation",
+    "supportInbox": "Support Inbox",
+    "badgePopular": "POPULAR",
+    "badgeUpdated": "UPDATED",
+    "badgeBeta": "BETA",
+    "updateLabel": "PLATFORM UPDATE",
+    "updateTitle": "New Analytics Features",
+    "updateDescription": "Predictive behavioral modeling is now active in K Risk core.",
+    "changelog": "Changelog"
   },
   "apps": {
     "shell": {

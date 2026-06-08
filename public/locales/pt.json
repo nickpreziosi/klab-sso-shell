@@ -84,7 +84,21 @@
     "prevSlide": "Slide anterior",
     "nextSlide": "Próximo slide",
     "carouselSlides": "Slides do carrossel",
-    "goToSlide": "Ir para {{name}}"
+    "goToSlide": "Ir para {{name}}",
+    "ecosystemTitle": "PRODUTOS DO ECOSSISTEMA",
+    "viewAll": "Ver Todos [{{count}}]",
+    "quickLinksTitle": "LINKS RÁPIDOS",
+    "launch": "Abrir",
+    "systemStatus": "Status do Sistema",
+    "documentation": "Documentação",
+    "supportInbox": "Caixa de Suporte",
+    "badgePopular": "POPULAR",
+    "badgeUpdated": "ATUALIZADO",
+    "badgeBeta": "BETA",
+    "updateLabel": "ATUALIZAÇÃO",
+    "updateTitle": "Novos Recursos de Análise",
+    "updateDescription": "Modelagem comportamental preditiva agora está ativa no núcleo do K Risk.",
+    "changelog": "Registro de alterações"
   },
   "apps": {
     "shell": {

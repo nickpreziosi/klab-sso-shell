@@ -84,7 +84,21 @@
     "prevSlide": "Diapositiva anterior",
     "nextSlide": "Diapositiva siguiente",
     "carouselSlides": "Diapositivas del carrusel",
-    "goToSlide": "Ir a {{name}}"
+    "goToSlide": "Ir a {{name}}",
+    "ecosystemTitle": "PRODUCTOS DEL ECOSISTEMA",
+    "viewAll": "Ver Todos [{{count}}]",
+    "quickLinksTitle": "ACCESOS RÁPIDOS",
+    "launch": "Abrir",
+    "systemStatus": "Estado del Sistema",
+    "documentation": "Documentación",
+    "supportInbox": "Bandeja de Soporte",
+    "badgePopular": "POPULAR",
+    "badgeUpdated": "ACTUALIZADO",
+    "badgeBeta": "BETA",
+    "updateLabel": "ACTUALIZACIÓN",
+    "updateTitle": "Nuevas Funciones Analíticas",
+    "updateDescription": "El modelado predictivo ya está activo en el núcleo de K Risk.",
+    "changelog": "Registro de cambios"
   },
   "apps": {
     "shell": {
