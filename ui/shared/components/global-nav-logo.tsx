@@ -76,8 +76,9 @@ export function GlobalNavLogo({ currentAppId, collapsed, alt }: GlobalNavLogoPro
           {currentShowsLogo ? (
             <ThemeAwareLogo
               Logo={CurrentLogo}
-              className="h-6 w-auto"
+              className={cn(currentApp.logoSizeClass ?? "h-6", "w-auto")}
               preserveAspectRatio="xMidYMid meet"
+              overflow="visible"
             />
           ) : (
             <span className="truncate text-sm font-semibold tracking-tight">{currentApp.name}</span>
@@ -134,7 +135,8 @@ export function GlobalNavLogo({ currentAppId, collapsed, alt }: GlobalNavLogoPro
                         Logo={AppLogo}
                         wrapperClassName="flex h-7 w-auto items-center justify-center py-1.5 transition group-hover:translate-x-1"
                         preserveAspectRatio="xMidYMid meet"
-                        className="h-7 w-auto"
+                        className={cn(app.logoSizeClass ?? "h-7", "w-auto")}
+                        overflow="visible"
                       />
                     </div>
                   ) : (

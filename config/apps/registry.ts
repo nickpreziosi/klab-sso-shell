@@ -72,6 +72,8 @@ export type ShellAppConfig = {
   logo: LogoComponent;
   /** When true, the app switcher and home dashboard show the brand logo; otherwise the name as text. */
   showBrandLogo?: boolean;
+  /** Height class for the logo in the switcher (e.g. "h-[30px]"). Set when a logo's viewBox is taller than average, causing it to render visually smaller at the standard height. Defaults to "h-6" in the trigger and "h-7" in the dropdown. */
+  logoSizeClass?: string;
   /** App-relative path used when the app is selected from the switcher. */
   defaultSegment: string;
   /** Short marketing description used on the home dashboard carousel and cards. */
@@ -152,6 +154,7 @@ export const APPS: ShellAppConfig[] = [
     slug: "krisk",
     name: "K Risk",
     logo: KRiskLogo,
+    showBrandLogo: true,
     defaultSegment: "",
     description:
       "Comprehensive intelligence engine that integrates internal history and external data sources to fortify underwriting and protect the portfolio.",
@@ -195,6 +198,8 @@ export const APPS: ShellAppConfig[] = [
     slug: "kbpm",
     name: "KBPM",
     logo: KBpmLogo,
+    showBrandLogo: true,
+    logoSizeClass: "h-[34px]",
     defaultSegment: "",
     description:
       "Regulatory compliance and business process automation for onboarding, routing, card issuance, and unified workflows.",
@@ -218,6 +223,7 @@ export const APPS: ShellAppConfig[] = [
     slug: "kleads",
     name: "K Leads",
     logo: KLeadsLogo,
+    showBrandLogo: true,
     defaultSegment: "",
     description:
       "Lead generation that drives higher prospect conversion, maximizes commercial efficiency, and accelerates growth.",
