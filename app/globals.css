@@ -262,6 +262,16 @@ a {
   text-decoration: none;
 }
 
+/* Safe area insets for iOS Capacitor (notch / Dynamic Island / home indicator) */
+@supports (padding-top: env(safe-area-inset-top)) {
+  :root {
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+  }
+}
+
 @layer base {
   :root {
     --radius: 8px;

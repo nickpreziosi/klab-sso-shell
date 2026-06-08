@@ -29,3 +29,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Capacitor — commit android/ and ios/ to source control (Capacitor recommendation).
+# Ignore only generated artefacts inside those directories.
+android/.gradle
+android/app/build
+android/build
+ios/App/Pods
+ios/App/App.xcworkspace/xcshareddata/swiftpm

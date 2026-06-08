@@ -9,9 +9,18 @@
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "mobile:sync": "cap sync",
+    "mobile:open:android": "cap open android",
+    "mobile:open:ios": "cap open ios",
+    "mobile:dev:android": "cap run android --livereload --external",
+    "mobile:dev:ios": "cap run ios --livereload --external"
   },
   "dependencies": {
+    "@capacitor/app": "^8.1.0",
+    "@capacitor/core": "^8.4.0",
+    "@capacitor/splash-screen": "^8.0.1",
+    "@capacitor/status-bar": "^8.0.2",
     "@k-lab/components": "^0.8.0",
     "firebase": "^12.12.1",
     "lucide-react": "^0.553.0",
@@ -21,6 +30,9 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
+    "@capacitor/android": "^8.4.0",
+    "@capacitor/cli": "^8.4.0",
+    "@capacitor/ios": "^8.4.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",

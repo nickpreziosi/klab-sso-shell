@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { getLocale, getMessages } from "next-intl/server";
@@ -22,6 +22,12 @@ const roboto = Roboto({
   display: "swap",
   variable: "--font-roboto",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "K-Lab Shell",
