@@ -16,7 +16,13 @@ import {
 } from "@k-lab/components";
 import { ChevronDown, Check } from "lucide-react";
 import { ThemeAwareLogo } from "@/ui/shared/components/theme-aware-logo";
-import { SWITCHER_APPS, appShowsBrandLogo, type ShellAppId } from "@/config/apps/registry";
+import {
+  SWITCHER_APPS,
+  appShowsBrandLogo,
+  getAppById,
+  isZoneApp,
+  type ShellAppId,
+} from "@/config/apps/registry";
 import { filterAppsByRole } from "@/lib/roles/shell-roles";
 import { appDefaultHref } from "@/lib/navigation/resolve-nav";
 import { useActiveApp } from "@/ui/shell/providers/active-app-provider";
@@ -52,6 +58,13 @@ export function GlobalNavLogo({ currentAppId, collapsed, alt }: GlobalNavLogoPro
   const handleSelect = (id: ShellAppId, href: string, isCurrent: boolean) => {
     setDropdownOpen(false);
     if (isCurrent) return;
+    const app = getAppById(id);
+    // Zone apps are separate deployments — cross-zone navigation must be a
+    // hard navigation (multi-zones), never a Next.js soft navigation.
+    if (app && isZoneApp(app)) {
+      window.location.assign(href);
+      return;
+    }
     setActiveAppId(id);
     router.push(href);
   };

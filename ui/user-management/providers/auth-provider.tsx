@@ -3,7 +3,7 @@
 import * as React from "react";
 import type { AuthenticatedUser } from "@/contexts/user-management/auth/domain/auth-gateway.port";
 import type { AuthTokenClaims } from "@/contexts/user-management/auth/domain/token-claims";
-import { authSessionService } from "@/contexts/user-management/auth/application/auth-client.facade";
+import { createAuthSessionService } from "@/contexts/user-management/auth/application/auth-client.facade";
 
 type AuthContextValue = {
   user: AuthenticatedUser | null;
@@ -21,6 +21,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [claims, setClaims] = React.useState<AuthTokenClaims | null>(null);
   const [loading, setLoading] = React.useState(true);
 
+  const authSessionService = React.useMemo(() => createAuthSessionService(), []);
+
   React.useEffect(() => {
     const unsub = authSessionService.subscribe((state) => {
       setUser(state.user);
@@ -28,21 +30,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     });
     return unsub;
-  }, []);
+  }, [authSessionService]);
 
   const signOut = React.useCallback(async () => {
     await authSessionService.signOutAndClearPresence();
     setUser(null);
     setClaims(null);
-  }, []);
+  }, [authSessionService]);
 
   const refreshClaims = React.useCallback(async () => {
     const state = await authSessionService.refreshSessionClaims();
     setUser(state.user);
     setClaims(state.claims);
-  }, []);
+  }, [authSessionService]);
 
-  const getIdToken = React.useCallback(() => authSessionService.getIdToken(), []);
+  const getIdToken = React.useCallback(() => authSessionService.getIdToken(), [authSessionService]);
 
   const value = React.useMemo(
     () => ({

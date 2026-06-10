@@ -138,14 +138,16 @@ function HeroCarouselInner({
                           size="lg"
                           className="w-fit bg-white text-black transition-colors hover:bg-white/80"
                         >
-                          <Link href={href}>
+                          {/* Plain <a>: child apps are separate zones — cross-zone
+                              navigation must be a hard navigation. */}
+                          <a href={href}>
                             {t("exploreCta", "home", {
                               name:
                                 t(`${entry.app.id}.name`, "apps") ||
                                 entry.app.name,
                             })}
                             <ArrowRight className="h-4 w-4" />
-                          </Link>
+                          </a>
                         </Button>
                       )}
                     </div>
@@ -278,10 +280,10 @@ function GoToNavDropdown({ app }: { app: ShellAppConfig }) {
 
           return (
             <DropdownMenuItem key={item.href} asChild>
-              <Link href={item.href} className="flex items-center gap-2">
+              <a href={item.href} className="flex items-center gap-2">
                 <ItemIcon className="h-4 w-4 shrink-0" />
                 <span>{label}</span>
-              </Link>
+              </a>
             </DropdownMenuItem>
           );
         })}
@@ -303,10 +305,10 @@ function GoToNavDropdown({ app }: { app: ShellAppConfig }) {
 
                 return (
                   <DropdownMenuItem key={item.href} asChild>
-                    <Link href={item.href} className="flex items-center gap-2">
+                    <a href={item.href} className="flex items-center gap-2">
                       <ItemIcon className="h-4 w-4 shrink-0" />
                       <span>{label}</span>
-                    </Link>
+                    </a>
                   </DropdownMenuItem>
                 );
               })}
@@ -381,9 +383,9 @@ function ProductCard({
               size="sm"
               className="h-7 px-3 text-[11px] font-semibold uppercase tracking-wide"
             >
-              <Link href={defaultHref}>
+              <a href={defaultHref}>
                 {t("launch", "home") || "Launch"}
-              </Link>
+              </a>
             </Button>
           </>
         )}

@@ -40,6 +40,17 @@ import {
 import { GlobalNavLogo } from "@/ui/shared/components/global-nav-logo";
 import { User, Settings, LogOut } from "lucide-react";
 import { getAppById, type ShellAppId } from "@/config/apps/registry";
+import { ZONE_APPS } from "@/config/apps/zones";
+
+/** Zone apps are separate Next.js deployments. Navigation to their routes must
+ *  be a hard navigation (full page reload) so their own router and basePath
+ *  initialise correctly. Soft navigation via the shell router would render zone
+ *  RSC in the shell's React context, where useRouter() has no basePath. */
+function isZoneHref(href: string): boolean {
+  return ZONE_APPS.some(
+    (zone) => href === `/${zone.slug}` || href.startsWith(`/${zone.slug}/`),
+  );
+}
 
 const linkButtonClass = "w-full h-10 px-4 justify-start gap-3 text-sm";
 
@@ -137,16 +148,19 @@ function InternalSidebarContent({
   const router = useRouter();
   const { t } = useInternationalizationContext();
 
-  // Navigate client-side: the nav items render as `<a href>` (for accessibility
-  // and modifier-click), but a plain anchor triggers a full-page reload that
-  // re-mounts the shell + iframe. Intercept normal clicks and use the router so
-  // only the active highlight updates.
+  // Zone app hrefs need a hard navigation (full page reload) so the zone's own
+  // React context and basePath initialise. Shell-owned hrefs use the router for
+  // instant transitions without a full reload.
   const handleNavigate = React.useCallback(
     (href: string) => (event: React.MouseEvent) => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
       onOpenChange?.(false);
-      router.push(href);
+      if (isZoneHref(href)) {
+        window.location.assign(href);
+      } else {
+        router.push(href);
+      }
     },
     [router, onOpenChange],
   );

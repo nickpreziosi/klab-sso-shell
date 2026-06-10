@@ -13,7 +13,6 @@ export const KRISK_BRAND_CSS_CLASS: Record<KriskBrandId, string> = {
 };
 
 export const SHELL_KRISK_BRAND_CHANGE_EVENT = "shell:krisk-brand-change";
-export const SHELL_RELOAD_IFRAME_EVENT = "shell:reload-iframe";
 
 export function isValidKriskBrand(value: string): value is KriskBrandId {
   return KRISK_BRAND_IDS.includes(value as KriskBrandId);
@@ -38,8 +37,4 @@ export function dispatchKriskBrandChange(brandId: KriskBrandId): void {
   window.dispatchEvent(
     new CustomEvent(SHELL_KRISK_BRAND_CHANGE_EVENT, { detail: brandId }),
   );
-}
-
-export function requestIframeReload(appId: string): void {
-  window.dispatchEvent(new CustomEvent(SHELL_RELOAD_IFRAME_EVENT, { detail: appId }));
 }

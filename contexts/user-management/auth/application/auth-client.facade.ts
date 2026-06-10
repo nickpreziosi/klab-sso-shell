@@ -5,9 +5,10 @@ import { AuthSessionService } from "@/contexts/user-management/auth/application/
 import { SignInWithEmailPasswordService } from "@/contexts/user-management/auth/application/sign-in-with-email-password.service";
 import { clearPresenceSession, setPresenceSession } from "@/lib/auth/presence-session-client";
 
-export const authSessionService = new AuthSessionService(firebaseAuthGateway, clearPresenceSession);
+export function createAuthSessionService(): AuthSessionService {
+  return new AuthSessionService(firebaseAuthGateway, clearPresenceSession);
+}
 
-export const signInWithEmailPasswordService = new SignInWithEmailPasswordService(
-  firebaseAuthGateway,
-  setPresenceSession
-);
+export function createSignInService(): SignInWithEmailPasswordService {
+  return new SignInWithEmailPasswordService(firebaseAuthGateway, setPresenceSession);
+}

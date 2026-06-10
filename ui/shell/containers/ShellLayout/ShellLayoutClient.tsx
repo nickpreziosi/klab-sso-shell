@@ -16,14 +16,12 @@ import { PreferencesBar } from "@/ui/shared/components/preferences-bar";
 import { ShellPreferencesBar } from "@/ui/shell/components/shell-preferences-bar";
 import { AppMobileNavbar } from "@/ui/shared/components/app-mobile-navbar";
 import { ShellSidebar } from "@/ui/shell/components/shell-sidebar";
-import { ProxyIframePool } from "@/ui/shell/components/proxy-iframe-pool";
 import { AppShellFooter } from "@/ui/shared/components/app-shell-footer";
 import { MOBILE_SIDEBAR_WIDTH_PERCENT } from "@/ui/shared/components/mobile-sidebar-panel";
 import { useScrollDirection } from "@/ui/shared/hooks/use-scroll-direction";
 import { useCloseOnFocusIn } from "@/ui/shared/hooks/use-close-on-focus-in";
 import { useSwipeGesture } from "@/ui/shared/hooks/use-swipe-gesture";
 import { getAppById } from "@/config/apps/registry";
-import { isProxiedMount } from "@/lib/krisk-proxy";
 import { getPrimaryNav, getAccordions } from "@/lib/navigation/resolve-nav";
 import { isPublicPath } from "@/lib/auth/public-routes";
 import { ShellAppGuard } from "@/ui/shell/components/shell-app-guard";
@@ -78,7 +76,6 @@ function ShellLayoutContent({ children }: { children: React.ReactNode }) {
   }, [authLoading, user, router]);
 
   const activeApp = getAppById(activeAppId) ?? getAppById("shell")!;
-  const proxiedContent = isProxiedMount(activeApp);
   const primaryNav = React.useMemo(() => getPrimaryNav(activeApp), [activeApp]);
   const accordions = React.useMemo(() => getAccordions(activeApp), [activeApp]);
 
@@ -164,22 +161,16 @@ function ShellLayoutContent({ children }: { children: React.ReactNode }) {
             data-shell-main
             className="relative min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-background pt-20 md:pt-0"
           >
-            {!proxiedContent && (
-              <div className="@container flex min-h-screen-dvh w-full min-w-0 grow shrink-0 flex-col">
-                <Content
-                  className="mx-auto w-full max-w-7xl 2xl:max-w-[1800px]"
-                  maxWidth=""
-                  padding="px-4 @md:px-8 py-8 @md:py-8 @lg:px-12 @lg:py-12"
-                >
-                  {children}
-                </Content>
-                <AppShellFooter />
-              </div>
-            )}
-            {/* Iframe pool — always mounted so apps survive app-switching.
-                Inactive iframes are hidden with display:none, keeping them alive. */}
-            <ProxyIframePool />
-            {proxiedContent && <AppShellFooter />}
+            <div className="@container flex min-h-screen-dvh w-full min-w-0 grow shrink-0 flex-col">
+              <Content
+                className="mx-auto w-full max-w-7xl 2xl:max-w-[1800px]"
+                maxWidth=""
+                padding="px-4 @md:px-8 py-8 @md:py-8 @lg:px-12 @lg:py-12"
+              >
+                {children}
+              </Content>
+              <AppShellFooter />
+            </div>
           </main>
         </div>
       </div>

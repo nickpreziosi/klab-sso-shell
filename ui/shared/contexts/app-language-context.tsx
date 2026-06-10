@@ -8,7 +8,6 @@ import {
   getStoredAppLanguage,
   persistAppLanguage,
 } from "@/lib/app-languages";
-import { SHELL_EMBED_SET_LANGUAGE_MESSAGE } from "@/lib/krisk-iframe-height";
 
 type AppLanguageContextValue = {
   language: AppLanguageCode;
@@ -45,15 +44,11 @@ export function AppLanguageProvider({
 
   const setLanguage = React.useCallback(
     (code: AppLanguageCode) => {
+      // Persists to the shared `klab-language` cookie + localStorage; child
+      // zones read the same keys (same origin) on their next document load.
       setLanguageState(code);
       persistAppLanguage(code);
       router.refresh();
-      document.querySelectorAll("iframe").forEach((iframe) => {
-        iframe.contentWindow?.postMessage(
-          { type: SHELL_EMBED_SET_LANGUAGE_MESSAGE, language: code },
-          window.location.origin,
-        );
-      });
     },
     [router],
   );

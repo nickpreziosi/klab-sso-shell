@@ -35,7 +35,7 @@ import {
   Briefcase,
   type LucideIcon,
 } from "lucide-react";
-import { getProxiedApp } from "./proxy-config";
+import { getZoneApp } from "./zones";
 
 export type ShellAppId = "shell" | "krisk" | "kbpm" | "kleads" | "krails";
 
@@ -88,26 +88,8 @@ export type ShellAppConfig = {
    * Enforced by middleware and nav gating (Phase 2).
    */
   permissions?: string[];
-  /**
-   * Local dev port the app's standalone server listens on.
-   * Derived from proxy-config.ts for proxied apps; drives Next.js rewrites in dev.
-   */
-  devPort?: number;
-  /** Production base URL (used for iframe src, Module Federation remoteEntry in Phase 2). */
-  prodUrl?: string;
   primaryNav: NavItemConfig[];
   accordions?: NavAccordionConfig[];
-  /**
-   * How the shell should mount this app's content.
-   * Unused in Phase 1 (placeholder pages render instead).
-   * Adding remotes here requires no layout changes.
-   */
-  mount?: {
-    type: "module-federation" | "iframe" | "proxy";
-    remoteEntry?: string;
-    scope?: string;
-    module?: string;
-  };
 };
 
 export const SHELL_APP: ShellAppConfig = {
@@ -127,25 +109,13 @@ export function appShowsBrandLogo(app: ShellAppConfig): boolean {
 }
 
 /**
- * Dev-time base URL for a proxied app.
- * Returns undefined if the app has no devPort.
+ * True when the app is served as an independent multi-zone deployment.
+ * Navigation into a zone must be a hard navigation (`<a>` / window.location),
+ * never a Next.js soft navigation — see https://nextjs.org/docs/pages/guides/multi-zones.
  */
-export function getAppDevOrigin(app: ShellAppConfig): string | undefined {
-  return app.devPort != null ? `http://127.0.0.1:${app.devPort}` : undefined;
+export function isZoneApp(app: ShellAppConfig): boolean {
+  return getZoneApp(app.id) !== undefined;
 }
-
-/**
- * Resolved base URL for an app's content.
- * Returns the dev origin in development, prodUrl in production.
- */
-export function getAppBaseUrl(app: ShellAppConfig): string | undefined {
-  if (process.env.NODE_ENV === "development") return getAppDevOrigin(app);
-  return app.prodUrl;
-}
-
-const _kriskProxy = getProxiedApp("krisk")!;
-const _kbpmProxy = getProxiedApp("kbpm")!;
-const _kleadsProxy = getProxiedApp("kleads")!;
 
 export const APPS: ShellAppConfig[] = [
   SHELL_APP,
@@ -160,11 +130,6 @@ export const APPS: ShellAppConfig[] = [
       "Comprehensive intelligence engine that integrates internal history and external data sources to fortify underwriting and protect the portfolio.",
     dashboardIcon: ShieldCheck,
     permissions: ["krisk:view"],
-    devPort: _kriskProxy.devPort,
-    prodUrl: "https://krisk.klab.com",
-    mount: {
-      type: "proxy",
-    },
     primaryNav: [
       { segment: "", label: "Dashboard", i18nKey: "dashboard", icon: LayoutDashboard },
       { segment: "data-entry", label: "Data Entry", i18nKey: "dataEntry", icon: FilePlus },
@@ -205,11 +170,6 @@ export const APPS: ShellAppConfig[] = [
       "Regulatory compliance and business process automation for onboarding, routing, card issuance, and unified workflows.",
     dashboardIcon: Settings,
     permissions: ["kbpm:view"],
-    devPort: _kbpmProxy.devPort,
-    prodUrl: "https://admin.klab.com",
-    mount: {
-      type: "proxy",
-    },
     primaryNav: [
       { segment: "", label: "Dashboard", i18nKey: "dashboard", icon: LayoutDashboard },
       { segment: "buyers", label: "Buyers", i18nKey: "buyers", icon: Users },
@@ -229,11 +189,6 @@ export const APPS: ShellAppConfig[] = [
       "Lead generation that drives higher prospect conversion, maximizes commercial efficiency, and accelerates growth.",
     dashboardIcon: TrendingUp,
     permissions: ["kleads:view"],
-    devPort: _kleadsProxy.devPort,
-    prodUrl: "https://leads.klab.com",
-    mount: {
-      type: "proxy",
-    },
     primaryNav: [
       { segment: "", label: "Dashboard", i18nKey: "dashboard", icon: LayoutDashboard },
       { segment: "network-map", label: "Network Map", i18nKey: "networkMap", icon: Network },

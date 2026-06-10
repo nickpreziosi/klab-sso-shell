@@ -19,7 +19,6 @@ import {
   dispatchKriskBrandChange,
   KRISK_BRAND_IDS,
   readKriskBrandCookie,
-  requestIframeReload,
   setKriskBrandCookie,
   type KriskBrandId,
 } from "@/lib/krisk-brand";
@@ -44,10 +43,11 @@ export function KriskBrandSelector() {
         setOpen(false);
         return;
       }
+      // The cookie is shared with the K Risk zone (same origin); the zone picks
+      // it up on its next document load.
       setActiveBrand(brandId);
       setKriskBrandCookie(brandId);
       dispatchKriskBrandChange(brandId);
-      requestIframeReload("krisk");
       setOpen(false);
     },
     [activeBrand],

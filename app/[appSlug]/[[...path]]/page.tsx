@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { getAppBySlug } from "@/config/apps/registry";
-import { isProxiedMount } from "@/lib/krisk-proxy";
+import { getAppBySlug, isZoneApp } from "@/config/apps/registry";
 import { resolvePageTitle } from "@/lib/navigation/resolve-nav";
 import { PlaceholderView } from "@/ui/shell/views/Placeholder/PlaceholderView";
 
@@ -11,12 +10,10 @@ export default async function AppCatchAllPage({
 }) {
   const { appSlug, path } = await params;
   const app = getAppBySlug(appSlug);
-  if (!app) notFound();
-
-  // Proxied apps are rendered by ProxyIframePool in the shell layout; this
-  // route slot intentionally renders nothing so there's no invisible placeholder
-  // beneath the iframe.
-  if (isProxiedMount(app)) return null;
+  // Zone apps are served by their own deployment via multi-zone rewrites
+  // (beforeFiles), so requests for them never reach this route. If one does,
+  // the zone isn't configured — treat it as missing rather than render shell UI.
+  if (!app || isZoneApp(app)) notFound();
 
   const segment = (path ?? []).join("/");
   const pageTitle = resolvePageTitle(app, segment);

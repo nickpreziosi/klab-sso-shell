@@ -72,14 +72,32 @@ npm run dev
 
 The app starts on http://127.0.0.1:3000. Unauthenticated visits redirect to `/login`.
 
-### K Risk (dev proxy)
+### Child apps (multi-zones)
 
-To load the standalone `ux-krisk` app inside `/krisk` during development:
+Child apps are independent Next.js deployments ("zones") served under a path
+prefix on the shell origin, per the
+[Next.js multi-zones guide](https://nextjs.org/docs/pages/guides/multi-zones).
+The shell rewrites `/{slug}/*` to each zone's origin (see `config/apps/zones.ts`
+and `next.config.ts`).
 
-1. In `ux-krisk`, set `NEXT_PUBLIC_BASE_PATH=/krisk-proxy` in `.env` and run `npm run dev` (port **3001**).
-2. In this shell, set `KRISK_DEV_ORIGIN=http://127.0.0.1:3001` in `.env` and restart `npm run dev`.
+To run the full platform locally:
 
-The shell proxies `/krisk-proxy/*` to the K Risk dev server and embeds it in the main content area (shell sidebar + SSO stay in control).
+| App | Repo | Port | basePath |
+| --- | --- | --- | --- |
+| Shell | this repo | 3000 | — |
+| K Risk | `ux-krisk` | 3001 | `/krisk` |
+| KBPM | `keo-core-admin-web-ui` | 3002 | `/kbpm` |
+| K Leads | `klab-gbl-kleads-portal-web-ui` | 3003 | `/kleads` |
+
+1. In each child repo, set `NEXT_PUBLIC_BASE_PATH=/{slug}` in `.env` and run `npm run dev` on its port.
+2. Run `npm run dev` here and browse everything through http://127.0.0.1:3000.
+
+Because every zone is served from the same origin, auth (Firebase session +
+`KLabShellPresence` cookie), theme, language, and brand preferences are shared
+automatically — no iframes or postMessage bridge.
+
+Navigation within an app is a normal soft navigation; switching apps is a hard
+navigation (`<a>` / `window.location`), as required by multi-zones.
 
 ## Out of scope for Phase 1
 

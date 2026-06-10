@@ -9,8 +9,12 @@ import { cn } from "@k-lab/components";
  * layout script (before React), so the correct logo is visible on first paint.
  */
 type ThemeAwareLogoProps = {
+  /** Variant union matches the logos exported by `@k-lab/components`; we only ever pass "dark" | "light". */
   Logo: React.ComponentType<
-    { variant?: "dark" | "light"; className?: string } & Record<string, unknown>
+    { variant?: "dark" | "light" | "color" | "white" | "black"; className?: string } & Record<
+      string,
+      unknown
+    >
   >;
   className?: string;
   wrapperClassName?: string;
