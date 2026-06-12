@@ -35,6 +35,7 @@ import {
   Briefcase,
   type LucideIcon,
 } from "lucide-react";
+import { getPlatformDevOrigin } from "@/config/platform/dev-hosts";
 import { getProxiedApp } from "./proxy-config";
 
 export type ShellAppId = "shell" | "krisk" | "kbpm" | "kleads" | "krails";
@@ -131,7 +132,8 @@ export function appShowsBrandLogo(app: ShellAppConfig): boolean {
  * Returns undefined if the app has no devPort.
  */
 export function getAppDevOrigin(app: ShellAppConfig): string | undefined {
-  return app.devPort != null ? `http://127.0.0.1:${app.devPort}` : undefined;
+  if (app.devPort == null) return undefined;
+  return getPlatformDevOrigin(app.id, app.devPort);
 }
 
 /**

@@ -1,5 +1,6 @@
 import type { ShellAppConfig } from "@/config/apps/registry";
 import { getProxiedApp } from "@/config/apps/proxy-config";
+import { isIframeEmbedLayout } from "@/lib/platform/layout-mode";
 
 const _krisk = getProxiedApp("krisk")!;
 
@@ -7,6 +8,7 @@ const _krisk = getProxiedApp("krisk")!;
 export const KRISK_PROXY_PREFIX = _krisk.proxyPrefix;
 
 export function isProxiedMount(app: ShellAppConfig): boolean {
+  if (!isIframeEmbedLayout()) return false;
   return app.mount?.type === "proxy";
 }
 

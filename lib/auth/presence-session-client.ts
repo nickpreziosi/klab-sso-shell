@@ -1,5 +1,7 @@
 "use client";
 
+import { clearSharedPlatformCookies, syncPlatformPresenceCookie } from "@/lib/platform-auth/platform-shared-cookies";
+
 /** Tells the server to set the httpOnly presence cookie (no token; no Firebase on server). */
 export async function setPresenceSession(): Promise<void> {
   const res = await fetch("/api/auth/session", {
@@ -10,6 +12,7 @@ export async function setPresenceSession(): Promise<void> {
     const text = await res.text();
     throw new Error(text || `Session failed (${res.status})`);
   }
+  syncPlatformPresenceCookie();
 }
 
 export async function clearPresenceSession(): Promise<void> {
@@ -17,4 +20,5 @@ export async function clearPresenceSession(): Promise<void> {
     method: "DELETE",
     credentials: "include",
   });
+  clearSharedPlatformCookies();
 }

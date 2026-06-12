@@ -1,3 +1,5 @@
+import { getPlatformDevOrigin } from "../platform/dev-hosts";
+
 /**
  * Lightweight proxy configuration — no React or Lucide imports.
  * Safe to import from next.config.ts at build time.
@@ -47,7 +49,7 @@ export function getProxiedApp(appId: string): ProxiedAppConfig | undefined {
   return PROXIED_APPS.find((p) => p.appId === appId);
 }
 
-/** Base URL of a proxied app's local dev server. */
-export function getDevOrigin(devPort: number): string {
-  return `http://127.0.0.1:${devPort}`;
+/** Base URL of a proxied app's local dev server (legacy iframe proxy rewrites). */
+export function getDevOrigin(appId: string, devPort: number): string {
+  return getPlatformDevOrigin(appId, devPort);
 }

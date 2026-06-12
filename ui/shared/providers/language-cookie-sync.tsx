@@ -4,32 +4,23 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import {
   APP_LANGUAGE_COOKIE,
-  getStoredAppLanguage,
   persistAppLanguage,
+  resolveAppLocaleFromCookieValue,
 } from "@/lib/app-languages";
+import { readPlatformPreferenceCookie } from "@/lib/platform-preferences/shared-cookies";
 
-function readLanguageCookie(): string | null {
-  if (typeof document === "undefined") return null;
-  const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${APP_LANGUAGE_COOKIE}=([^;]*)`));
-  const raw = match?.[1];
-  return raw ? decodeURIComponent(raw) : null;
-}
-
-/**
- * Aligns the `klab-language` cookie with localStorage so server-rendered next-intl matches
- * the language chosen on this device.
- */
-export function LanguageCookieSync() {
+export function LanguageCookieSync({ serverLocale }: { serverLocale: string }) {
   const router = useRouter();
 
   React.useEffect(() => {
-    const stored = getStoredAppLanguage();
-    const cookie = readLanguageCookie();
-    if (cookie !== stored) {
-      persistAppLanguage(stored);
+    const cookieLang = resolveAppLocaleFromCookieValue(
+      readPlatformPreferenceCookie(APP_LANGUAGE_COOKIE) ?? undefined,
+    );
+    if (cookieLang !== resolveAppLocaleFromCookieValue(serverLocale)) {
+      persistAppLanguage(cookieLang);
       router.refresh();
     }
-  }, [router]);
+  }, [router, serverLocale]);
 
   return null;
 }

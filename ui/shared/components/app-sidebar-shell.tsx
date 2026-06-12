@@ -40,6 +40,7 @@ import {
 import { GlobalNavLogo } from "@/ui/shared/components/global-nav-logo";
 import { User, Settings, LogOut } from "lucide-react";
 import { getAppById, type ShellAppId } from "@/config/apps/registry";
+import { isExternalHref } from "@/lib/navigation/navigate";
 
 const linkButtonClass = "w-full h-10 px-4 justify-start gap-3 text-sm";
 
@@ -137,13 +138,15 @@ function InternalSidebarContent({
   const router = useRouter();
   const { t } = useInternationalizationContext();
 
-  // Navigate client-side: the nav items render as `<a href>` (for accessibility
-  // and modifier-click), but a plain anchor triggers a full-page reload that
-  // re-mounts the shell + iframe. Intercept normal clicks and use the router so
-  // only the active highlight updates.
+  // In-app shell paths use the client router; subdomain-native child URLs use the
+  // anchor's default full-page navigation (see resolveHref in resolve-nav.ts).
   const handleNavigate = React.useCallback(
     (href: string) => (event: React.MouseEvent) => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (isExternalHref(href)) {
+        onOpenChange?.(false);
+        return;
+      }
       event.preventDefault();
       onOpenChange?.(false);
       router.push(href);
@@ -169,7 +172,8 @@ function InternalSidebarContent({
     const Icon = link.icon;
     const normalizedPath = currentPath.endsWith("/") ? currentPath.slice(0, -1) : currentPath;
     const normalizedHref = link.href.endsWith("/") ? link.href.slice(0, -1) : link.href;
-    const isActive = normalizedPath === normalizedHref;
+    const isActive =
+      !isExternalHref(link.href) && normalizedPath === normalizedHref;
 
     const displayLabel = link.i18nKey ? t(link.i18nKey, "nav") : link.label;
 
@@ -220,6 +224,7 @@ function InternalSidebarContent({
   const renderAccordion = (accordion: AppSidebarAccordion) => {
     const AccordionIcon = accordion.icon;
     const isActive = accordion.items.some((item) => {
+      if (isExternalHref(item.href)) return false;
       const exact = currentPath === item.href || currentPath === item.href + "/";
       const nested = currentPath.startsWith(item.href + "/");
       return exact || nested;
@@ -251,9 +256,10 @@ function InternalSidebarContent({
               {accordion.items.map((item) => {
                 const ItemIcon = item.icon;
                 const isItemActive =
-                  currentPath === item.href ||
-                  currentPath === item.href + "/" ||
-                  currentPath.startsWith(item.href + "/");
+                  !isExternalHref(item.href) &&
+                  (currentPath === item.href ||
+                    currentPath === item.href + "/" ||
+                    currentPath.startsWith(item.href + "/"));
                 return (
                   <DropdownMenuItem key={item.href} asChild>
                     <Button
@@ -304,9 +310,10 @@ function InternalSidebarContent({
                 {accordion.items.map((item) => {
                   const ItemIcon = item.icon;
                   const isItemActive =
-                    currentPath === item.href ||
-                    currentPath === item.href + "/" ||
-                    currentPath.startsWith(item.href + "/");
+                    !isExternalHref(item.href) &&
+                    (currentPath === item.href ||
+                      currentPath === item.href + "/" ||
+                      currentPath.startsWith(item.href + "/"));
                   return (
                     <Button
                       key={item.href}

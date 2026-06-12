@@ -70,7 +70,7 @@ Run the dev server:
 npm run dev
 ```
 
-The app starts on http://127.0.0.1:3000. Unauthenticated visits redirect to `/login`.
+The app starts on http://app.localhost:3000. Unauthenticated visits redirect to `/login`.
 
 ### K Risk (dev proxy)
 

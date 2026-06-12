@@ -20,6 +20,7 @@ import { ThemeAwareLogo } from "@/ui/shared/components/theme-aware-logo";
 import { SWITCHER_APPS, appShowsBrandLogo, type ShellAppId } from "@/config/apps/registry";
 import { filterAppsByRole } from "@/lib/roles/shell-roles";
 import { appDefaultHref } from "@/lib/navigation/resolve-nav";
+import { isExternalHref, navigateToHref } from "@/lib/navigation/navigate";
 import { useActiveApp } from "@/ui/shell/providers/active-app-provider";
 import { useShellRole } from "@/ui/shell/providers/shell-role-provider";
 
@@ -56,8 +57,10 @@ export function TechNavDrawer({ currentAppId, trigger, className, onAppSelect }:
     setOpen(false);
     onAppSelect?.();
     if (isCurrent) return;
-    setActiveAppId(id);
-    router.push(href);
+    if (!isExternalHref(href)) {
+      setActiveAppId(id);
+    }
+    navigateToHref(href, router);
   };
 
   const defaultTrigger = (

@@ -1,4 +1,9 @@
-const PUBLIC_PATHS = new Set<string>(["/login", "/forgot-password", "/reset-password"]);
+const PUBLIC_PATHS = new Set<string>([
+  "/login",
+  "/forgot-password",
+  "/reset-password",
+  "/auth/handoff",
+]);
 
 export function isPublicPath(pathname: string): boolean {
   const p = pathname.endsWith("/") && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
@@ -6,5 +11,10 @@ export function isPublicPath(pathname: string): boolean {
 }
 
 export function isAuthApiPath(pathname: string): boolean {
-  return pathname === "/api/auth/session" || pathname.startsWith("/api/auth/session/");
+  return (
+    pathname === "/api/auth/session" ||
+    pathname.startsWith("/api/auth/session/") ||
+    pathname === "/api/auth/handoff/issue" ||
+    pathname === "/api/auth/handoff/exchange"
+  );
 }

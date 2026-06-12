@@ -1,6 +1,7 @@
 import {
   APPS,
   SHELL_APP,
+  getAppBaseUrl,
   getAppBySlug,
   type NavItemConfig,
   type ShellAppConfig,
@@ -11,19 +12,40 @@ import type {
 } from "@/ui/shared/components/app-sidebar-shell";
 
 /**
- * Builds the absolute (shell-rooted) URL for an app-relative segment.
- *
- * - Shell host (`slug === ""`): `""` -> `/`, otherwise `/{segment}`.
- * - Child apps: `""` -> `/{slug}` (the app dashboard), otherwise `/{slug}/{segment}`.
- *
- * Segments are stored app-relative so the same config can later target a remote
- * micro-frontend without rewriting every link.
+ * Shell-rooted path for an app-relative segment (legacy iframe / multi-zone routing).
  */
-export function resolveHref(app: ShellAppConfig, segment: string): string {
+function resolveShellPath(app: ShellAppConfig, segment: string): string {
   if (app.slug === "") {
     return segment === "" ? "/" : `/${segment}`;
   }
   return segment === "" ? `/${app.slug}` : `/${app.slug}/${segment}`;
+}
+
+/**
+ * Resolves navigation href for an app-relative segment.
+ *
+ * - Shell host (`slug === ""`): in-app paths (`/`, `/{segment}`).
+ * - Child apps (subdomain-native): dev origin or `prodUrl` + segment
+ *   (e.g. `http://krisk.localhost:3001/data-entry`, `https://krisk.klab.com/data-entry`).
+ * - Falls back to shell paths when the app has no configured base URL (e.g. coming soon).
+ *
+ * Segments stay app-relative in the registry so one config drives shell and child URLs.
+ */
+export function resolveHref(app: ShellAppConfig, segment: string): string {
+  if (app.slug === "") {
+    return resolveShellPath(app, segment);
+  }
+
+  const baseUrl = getAppBaseUrl(app);
+  if (!baseUrl) {
+    return resolveShellPath(app, segment);
+  }
+
+  const normalizedBase = baseUrl.replace(/\/$/, "");
+  if (segment === "") return normalizedBase;
+
+  const path = segment.startsWith("/") ? segment : `/${segment}`;
+  return `${normalizedBase}${path}`;
 }
 
 /** The landing URL for an app when selected from the switcher. */

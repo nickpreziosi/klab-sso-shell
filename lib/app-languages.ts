@@ -1,8 +1,12 @@
-/** Synced with `localStorage` and cookie (`klab-language`) for next-intl / server (`cookies()`). */
-export const APP_LANGUAGE_COOKIE = "klab-language";
-export const APP_LANGUAGE_STORAGE_KEY = APP_LANGUAGE_COOKIE;
+/** Synced with `localStorage` and shared cookie (`klab-language`) for next-intl / server (`cookies()`). */
+import {
+  PLATFORM_LANGUAGE_COOKIE,
+  PLATFORM_LANGUAGE_STORAGE_KEY,
+} from "@/lib/platform-preferences/constants";
+import { setPlatformPreferenceCookie, readPlatformPreferenceCookie } from "@/lib/platform-preferences/shared-cookies";
 
-const COOKIE_MAX_AGE_SEC = 60 * 60 * 24 * 365;
+export const APP_LANGUAGE_COOKIE = PLATFORM_LANGUAGE_COOKIE;
+export const APP_LANGUAGE_STORAGE_KEY = PLATFORM_LANGUAGE_STORAGE_KEY;
 
 export const APP_LANGUAGE_OPTIONS = [
   { code: "en", label: "English", flag: "🇺🇸", aliases: [] as const },
@@ -29,27 +33,28 @@ export function resolveAppLocaleFromCookieValue(value: string | undefined): AppL
 }
 
 function readAppLanguageCookie(): AppLanguageCode | null {
-  if (typeof document === "undefined") return null;
-  const match = document.cookie.match(
-    new RegExp(`(?:^|;\\s*)${APP_LANGUAGE_COOKIE}=([^;]*)`),
-  );
-  const raw = match?.[1];
-  if (!raw) return null;
-  const decoded = decodeURIComponent(raw);
-  if (!VALID_LANG.has(decoded)) return null;
+  const decoded = readPlatformPreferenceCookie(APP_LANGUAGE_COOKIE);
+  if (!decoded || !VALID_LANG.has(decoded)) return null;
   return decoded as AppLanguageCode;
 }
 
 export function getStoredAppLanguage(): AppLanguageCode {
   if (typeof window === "undefined") return "en";
 
+  const fromCookie = readAppLanguageCookie();
+  if (fromCookie) {
+    try {
+      window.localStorage.setItem(APP_LANGUAGE_STORAGE_KEY, fromCookie);
+    } catch {
+      // ignore
+    }
+    return fromCookie;
+  }
+
   const stored = window.localStorage.getItem(APP_LANGUAGE_STORAGE_KEY);
   if (stored && APP_LANGUAGE_OPTIONS.some((l) => l.code === stored)) {
     return stored as AppLanguageCode;
   }
-
-  const fromCookie = readAppLanguageCookie();
-  if (fromCookie) return fromCookie;
 
   const raw = window.navigator.language?.toLowerCase() ?? "";
   const primary = raw.slice(0, 2);
@@ -66,11 +71,7 @@ export function persistAppLanguage(language: AppLanguageCode): void {
   const shouldDisableTransitions = prevDir !== nextDir || prevLang !== language;
 
   window.localStorage.setItem(APP_LANGUAGE_STORAGE_KEY, language);
-  try {
-    document.cookie = `${APP_LANGUAGE_COOKIE}=${encodeURIComponent(language)};path=/;max-age=${COOKIE_MAX_AGE_SEC};SameSite=Lax`;
-  } catch {
-    // ignore
-  }
+  setPlatformPreferenceCookie(APP_LANGUAGE_COOKIE, language);
 
   if (shouldDisableTransitions) {
     root.classList.add("no-transitions");

@@ -5,6 +5,7 @@ import { AuthProvider } from "@/ui/user-management/providers/auth-provider";
 import { ShellRoleProvider } from "@/ui/shell/providers/shell-role-provider";
 import { AppLanguageProvider } from "@/ui/shared/contexts/app-language-context";
 import { DocumentDirectionProvider, ThemeProvider } from "@k-lab/components";
+import { ThemePreferenceSync } from "@/ui/shared/providers/theme-preference-sync";
 import { IntlClientAdapter } from "@/ui/shared/providers/intl-client-adapter";
 import { substituteBrandInMessages } from "@/lib/i18n/brand-substitution";
 import { SHELL_I18N_BRAND } from "@/config/i18n/shell-brand";
@@ -37,6 +38,7 @@ export function AppProviders({ locale, messages, children }: AppProvidersProps) 
         processMessages={processShellMessages}
       >
         <ThemeProvider defaultTheme="system" storageKey="k-lab-components-theme">
+          <ThemePreferenceSync />
           <DocumentDirectionProvider>
             <AuthProvider>
               <ShellRoleProvider>{children}</ShellRoleProvider>

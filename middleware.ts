@@ -1,14 +1,25 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { PRESENCE_COOKIE_NAME } from "@/lib/auth/presence-cookie";
+import {
+  PLATFORM_PRESENCE_COOKIE,
+  PRESENCE_COOKIE_NAME,
+} from "@/lib/auth/presence-cookie";
 import { isAuthApiPath, isPublicPath } from "@/lib/auth/public-routes";
 import { PROXIED_APPS } from "@/config/apps/proxy-config";
+
+function hasPlatformPresence(request: NextRequest): boolean {
+  return (
+    request.cookies.get(PLATFORM_PRESENCE_COOKIE)?.value === "1" ||
+    request.cookies.get(PRESENCE_COOKIE_NAME)?.value === "1"
+  );
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
     pathname.startsWith("/_next") ||
+    pathname.startsWith("/scripts/") ||
     pathname.startsWith("/favicon.ico") ||
     /\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?)$/i.test(pathname)
   ) {
@@ -26,14 +37,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const hasPresence = request.cookies.get(PRESENCE_COOKIE_NAME)?.value === "1";
-  if (!hasPresence) {
+  if (!hasPlatformPresence(request)) {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    const login = new URL("/login", request.url);
-    login.searchParams.set("next", pathname);
-    return NextResponse.redirect(login);
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();

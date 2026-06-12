@@ -13,9 +13,7 @@ export default async function AppCatchAllPage({
   const app = getAppBySlug(appSlug);
   if (!app) notFound();
 
-  // Proxied apps are rendered by ProxyIframePool in the shell layout; this
-  // route slot intentionally renders nothing so there's no invisible placeholder
-  // beneath the iframe.
+  // iframe-embed mode: ProxyIframePool renders the app; this slot stays empty.
   if (isProxiedMount(app)) return null;
 
   const segment = (path ?? []).join("/");

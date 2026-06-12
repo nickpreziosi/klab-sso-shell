@@ -17,6 +17,7 @@ import { ShellPreferencesBar } from "@/ui/shell/components/shell-preferences-bar
 import { AppMobileNavbar } from "@/ui/shared/components/app-mobile-navbar";
 import { ShellSidebar } from "@/ui/shell/components/shell-sidebar";
 import { ProxyIframePool } from "@/ui/shell/components/proxy-iframe-pool";
+import { isIframeEmbedLayout } from "@/lib/platform/layout-mode";
 import { AppShellFooter } from "@/ui/shared/components/app-shell-footer";
 import { MOBILE_SIDEBAR_WIDTH_PERCENT } from "@/ui/shared/components/mobile-sidebar-panel";
 import { useScrollDirection } from "@/ui/shared/hooks/use-scroll-direction";
@@ -78,7 +79,8 @@ function ShellLayoutContent({ children }: { children: React.ReactNode }) {
   }, [authLoading, user, router]);
 
   const activeApp = getAppById(activeAppId) ?? getAppById("shell")!;
-  const proxiedContent = isProxiedMount(activeApp);
+  const embedIframes = isIframeEmbedLayout();
+  const proxiedContent = embedIframes && isProxiedMount(activeApp);
   const primaryNav = React.useMemo(() => getPrimaryNav(activeApp), [activeApp]);
   const accordions = React.useMemo(() => getAccordions(activeApp), [activeApp]);
 
@@ -176,9 +178,7 @@ function ShellLayoutContent({ children }: { children: React.ReactNode }) {
                 <AppShellFooter />
               </div>
             )}
-            {/* Iframe pool — always mounted so apps survive app-switching.
-                Inactive iframes are hidden with display:none, keeping them alive. */}
-            <ProxyIframePool />
+            {embedIframes && <ProxyIframePool />}
             {proxiedContent && <AppShellFooter />}
           </main>
         </div>

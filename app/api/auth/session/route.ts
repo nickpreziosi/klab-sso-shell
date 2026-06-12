@@ -1,28 +1,25 @@
 import { NextResponse } from "next/server";
-import { PRESENCE_COOKIE_MAX_AGE, PRESENCE_COOKIE_NAME } from "@/lib/auth/presence-cookie";
+import {
+  PLATFORM_PRESENCE_COOKIE,
+  PRESENCE_COOKIE_NAME,
+} from "@/lib/auth/presence-cookie";
+import {
+  clearHostOnlyPresenceCookie,
+  clearPlatformPresenceCookie,
+  setHostOnlyPresenceCookie,
+  setPlatformPresenceCookie,
+} from "@/lib/platform-auth/cookie-options";
 
 export async function POST() {
   const res = NextResponse.json({ ok: true });
-  const secure = process.env.NODE_ENV === "production";
-  res.cookies.set(PRESENCE_COOKIE_NAME, "1", {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: PRESENCE_COOKIE_MAX_AGE,
-    secure,
-  });
+  setPlatformPresenceCookie(res, PLATFORM_PRESENCE_COOKIE);
+  setHostOnlyPresenceCookie(res, PRESENCE_COOKIE_NAME);
   return res;
 }
 
 export async function DELETE() {
   const res = NextResponse.json({ ok: true });
-  const secure = process.env.NODE_ENV === "production";
-  res.cookies.set(PRESENCE_COOKIE_NAME, "", {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 0,
-    secure,
-  });
+  clearPlatformPresenceCookie(res, PLATFORM_PRESENCE_COOKIE);
+  clearHostOnlyPresenceCookie(res, PRESENCE_COOKIE_NAME);
   return res;
 }

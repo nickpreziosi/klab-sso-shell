@@ -8,6 +8,8 @@ import { AppProviders } from "./providers";
 import { ShellLayoutClient } from "@/ui/shell/containers/ShellLayout/ShellLayoutClient";
 import { LanguageCookieSync } from "@/ui/shared/providers/language-cookie-sync";
 import { getDirForAppLanguage } from "@/lib/app-languages";
+import { PLATFORM_SIDEBAR_COLLAPSED_COOKIE } from "@/lib/platform-preferences/constants";
+import { resolvePlatformSidebarCollapsedFromCookie } from "@/lib/platform-preferences/shared-cookies";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -33,18 +35,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const dir = getDirForAppLanguage(locale);
   const messages = await getMessages();
   const cookieStore = await cookies();
-  const sidebarCookie = cookieStore.get("k-lab-sidebar-collapsed");
-  const initialSidebarCollapsed = sidebarCookie?.value === "true";
+  const sidebarCookie = cookieStore.get(PLATFORM_SIDEBAR_COLLAPSED_COOKIE);
+  const initialSidebarCollapsed = resolvePlatformSidebarCollapsedFromCookie(
+    sidebarCookie?.value,
+  );
 
   return (
     <html lang={locale} dir={dir} className={`${sora.variable} ${roboto.variable}`} suppressHydrationWarning>
       <head>
         {/* eslint-disable-next-line @next/next/no-sync-scripts -- intentional blocking document init to prevent theme flicker */}
-        <script src="/scripts/shell-document-init.js" />
+        <script src="/scripts/platform-document-init.js" />
       </head>
       <body className="font-sans antialiased">
         <AppProviders locale={locale} messages={messages}>
-          <LanguageCookieSync />
+          <LanguageCookieSync serverLocale={locale} />
           <ShellLayoutClient initialSidebarCollapsed={initialSidebarCollapsed}>
             {children}
           </ShellLayoutClient>

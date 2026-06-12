@@ -2,10 +2,10 @@
 
 import * as React from "react";
 
-const COOKIE_NAME = "k-lab-sidebar-collapsed";
+import { persistPlatformSidebarCollapsed } from "@/lib/platform-preferences/shared-cookies";
 
 function setSidebarCookie(collapsed: boolean) {
-  document.cookie = `${COOKIE_NAME}=${collapsed}; path=/; max-age=31536000; SameSite=Lax`;
+  persistPlatformSidebarCollapsed(collapsed);
 }
 
 interface LiveViewSidebarContextValue {

@@ -8,21 +8,49 @@ import {
   type ProductLoginConfig,
 } from "@/ui/user-management/views/ProductLogin/ProductLoginView";
 import { signInWithEmailPasswordService } from "@/contexts/user-management/auth/application/auth-client.facade";
+import { setPresenceSession } from "@/lib/auth/presence-session-client";
+import {
+  clearLogoutPendingCookie,
+  clearPlatformReturnToCookie,
+  readLogoutPendingCookie,
+  syncPlatformTokenCookie,
+} from "@/lib/platform-auth/platform-shared-cookies";
 import { useAuth } from "@/ui/user-management/providers/auth-provider";
 import { SHELL_AUTH_BRAND_BASE } from "@/config/auth/shell-auth-brand";
 
-const POST_LOGIN_PATH = "/";
-
 export function LoginView() {
   const router = useRouter();
-  const { user, loading } = useAuth();
+  const { user, loading, getIdToken, signOut } = useAuth();
+  const [bootstrapped, setBootstrapped] = React.useState(false);
+
+  // Child logout sets a short-lived cookie; clear shell session before login UI.
+  React.useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      clearPlatformReturnToCookie();
+      if (readLogoutPendingCookie()) {
+        clearLogoutPendingCookie();
+        await signOut();
+      }
+      if (!cancelled) setBootstrapped(true);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [signOut]);
+
+  const completeLogin = React.useCallback(async () => {
+    await setPresenceSession();
+    const token = await getIdToken();
+    if (token) syncPlatformTokenCookie(token);
+    clearPlatformReturnToCookie();
+    router.replace("/");
+  }, [getIdToken, router]);
 
   React.useEffect(() => {
-    if (loading) return;
-    if (user) {
-      router.replace(POST_LOGIN_PATH);
-    }
-  }, [loading, user, router]);
+    if (!bootstrapped || loading || !user) return;
+    void completeLogin();
+  }, [bootstrapped, loading, user, completeLogin]);
 
   const config: ProductLoginConfig = React.useMemo(
     () => ({
@@ -30,10 +58,10 @@ export function LoginView() {
       welcomeText: "Welcome back. Please sign in to continue.",
       signInWithEmailAndPassword: async (email, password) => {
         await signInWithEmailPasswordService.signInWithPresenceSession(email, password);
-        router.replace(POST_LOGIN_PATH);
+        await completeLogin();
       },
     }),
-    [router]
+    [completeLogin],
   );
 
   return <ProductLoginView config={config} />;

@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --hostname 127.0.0.1",
-    "dev:all": "concurrently --names \"SHELL,KRISK,KBPM,KLEADS\" --prefix-colors \"blue,cyan,green,magenta\" \"next dev --hostname 127.0.0.1\" \"npm --prefix ../ux-krisk run dev\" \"npm --prefix ../keo-core-admin-web-ui run dev\" \"npm --prefix ../klab-gbl-kleads-portal-web-ui run dev\"",
+    "dev": "next dev --hostname 127.0.0.1 --port 3000",
+    "dev:all": "bash scripts/dev-all.sh",
+    "dev:stop": "bash -c 'for p in 3000 3001 3002 3003; do lsof -ti :$p | xargs kill -9 2>/dev/null; done; echo stopped'",
     "build": "next build",
-    "start": "next start --hostname 127.0.0.1",
+    "start": "next start --hostname 127.0.0.1 --port 3000",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -14,6 +15,7 @@
   "dependencies": {
     "@k-lab/components": "^0.8.0",
     "firebase": "^12.12.1",
+    "firebase-admin": "^13.10.0",
     "lucide-react": "^0.553.0",
     "next": "^16.1.6",
     "next-intl": "^4.13.0",
