@@ -163,7 +163,7 @@ export const APPS: ShellAppConfig[] = [
     dashboardIcon: ShieldCheck,
     permissions: ["krisk:view"],
     devPort: _kriskProxy.devPort,
-    prodUrl: "https://krisk.klab.com",
+    prodUrl: "https://krisk.k-lab.ai",
     mount: {
       type: "proxy",
     },
@@ -201,14 +201,14 @@ export const APPS: ShellAppConfig[] = [
     name: "KBPM",
     logo: KBpmLogo,
     showBrandLogo: true,
-    logoSizeClass: "h-[34px]",
+    logoSizeClass: "h-[2.125rem] w-auto max-w-[155px]",
     defaultSegment: "",
     description:
       "Regulatory compliance and business process automation for onboarding, routing, card issuance, and unified workflows.",
     dashboardIcon: Settings,
     permissions: ["kbpm:view"],
     devPort: _kbpmProxy.devPort,
-    prodUrl: "https://admin.klab.com",
+    prodUrl: "https://kbpm.k-lab.ai",
     mount: {
       type: "proxy",
     },
@@ -226,13 +226,14 @@ export const APPS: ShellAppConfig[] = [
     name: "K Leads",
     logo: KLeadsLogo,
     showBrandLogo: true,
+    logoSizeClass: "h-[2.125rem] w-auto max-w-[155px]",
     defaultSegment: "",
     description:
       "Lead generation that drives higher prospect conversion, maximizes commercial efficiency, and accelerates growth.",
     dashboardIcon: TrendingUp,
     permissions: ["kleads:view"],
     devPort: _kleadsProxy.devPort,
-    prodUrl: "https://leads.klab.com",
+    prodUrl: "https://kleads.k-lab.ai",
     mount: {
       type: "proxy",
     },

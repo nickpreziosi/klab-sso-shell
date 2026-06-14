@@ -7,7 +7,7 @@ import {
   persistPlatformTheme,
 } from "@/lib/platform-preferences/shared-cookies";
 
-/** Writes theme changes to the shared platform cookie (init script handles read before paint). */
+/** Writes user theme changes to the shared platform cookie + localStorage cache. */
 export function ThemePreferenceSync() {
   const { theme } = useTheme();
   const skipInitialPersist = React.useRef(true);

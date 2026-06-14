@@ -37,9 +37,9 @@ import {
   MobileSidebarPanel,
   ProfileBottomDrawer,
 } from "@/ui/shared/components/mobile-sidebar-panel";
-import { GlobalNavLogo } from "@/ui/shared/components/global-nav-logo";
+import { PlatformApplicationMenuDropdown } from "@/ui/shared/components/platform-application-menu";
 import { User, Settings, LogOut } from "lucide-react";
-import { getAppById, type ShellAppId } from "@/config/apps/registry";
+import { type ShellAppId } from "@/config/apps/registry";
 import { isExternalHref } from "@/lib/navigation/navigate";
 
 const linkButtonClass = "w-full h-10 px-4 justify-start gap-3 text-sm";
@@ -165,8 +165,6 @@ function InternalSidebarContent({
     const t = setTimeout(() => setLogoContainerCollapsed(collapsed), 0);
     return () => clearTimeout(t);
   }, [collapsed]);
-
-  const appName = getAppById(appId)?.name ?? "K-Lab";
 
   const renderNavLink = (link: AppSidebarNavLink) => {
     const Icon = link.icon;
@@ -352,11 +350,11 @@ function InternalSidebarContent({
           logoContainerCollapsed ? "justify-center" : "justify-start"
         )}
       >
-        <GlobalNavLogo
+        <PlatformApplicationMenuDropdown
           currentAppId={appId}
           collapsed={collapsed}
           logoContainerCollapsed={logoContainerCollapsed}
-          alt={appName}
+          onAppSelect={() => onOpenChange?.(false)}
         />
       </div>
     </SidebarHeader>

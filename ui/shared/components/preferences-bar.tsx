@@ -39,7 +39,7 @@ export function PreferencesBar({ variant = "default", children }: PreferencesBar
       )}
       <AppLanguageDropdown
         side="left"
-        align="start"
+        align="end"
         className="h-9 w-9"
         tooltipText={t("languageTooltip", "preferences")}
       />

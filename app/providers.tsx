@@ -10,6 +10,7 @@ import { IntlClientAdapter } from "@/ui/shared/providers/intl-client-adapter";
 import { substituteBrandInMessages } from "@/lib/i18n/brand-substitution";
 import { SHELL_I18N_BRAND } from "@/config/i18n/shell-brand";
 import type { AppLanguageCode } from "@/lib/app-languages";
+import type { PlatformTheme } from "@/lib/platform-preferences/constants";
 
 // Stable module-level callback — passed to IntlClientAdapter so it never
 // triggers a spurious re-fetch due to a changed function reference.
@@ -26,10 +27,11 @@ function processShellMessages(
 export interface AppProvidersProps {
   locale: string;
   messages: AbstractIntlMessages;
+  initialTheme: PlatformTheme;
   children: React.ReactNode;
 }
 
-export function AppProviders({ locale, messages, children }: AppProvidersProps) {
+export function AppProviders({ locale, messages, initialTheme, children }: AppProvidersProps) {
   return (
     <AppLanguageProvider initialLanguage={locale as AppLanguageCode}>
       <IntlClientAdapter
@@ -37,7 +39,11 @@ export function AppProviders({ locale, messages, children }: AppProvidersProps) 
         initialMessages={messages}
         processMessages={processShellMessages}
       >
-        <ThemeProvider defaultTheme="system" storageKey="k-lab-components-theme">
+        <ThemeProvider
+          initialTheme={initialTheme}
+          defaultTheme="system"
+          storageKey="k-lab-components-theme"
+        >
           <ThemePreferenceSync />
           <DocumentDirectionProvider>
             <AuthProvider>

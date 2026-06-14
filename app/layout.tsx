@@ -9,6 +9,7 @@ import { ShellLayoutClient } from "@/ui/shell/containers/ShellLayout/ShellLayout
 import { LanguageCookieSync } from "@/ui/shared/providers/language-cookie-sync";
 import { getDirForAppLanguage } from "@/lib/app-languages";
 import { PLATFORM_SIDEBAR_COLLAPSED_COOKIE } from "@/lib/platform-preferences/constants";
+import { readPlatformThemeCookieFromStore } from "@/lib/platform-preferences/server-cookies";
 import { resolvePlatformSidebarCollapsedFromCookie } from "@/lib/platform-preferences/shared-cookies";
 
 const sora = Sora({
@@ -39,6 +40,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const initialSidebarCollapsed = resolvePlatformSidebarCollapsedFromCookie(
     sidebarCookie?.value,
   );
+  const initialTheme = readPlatformThemeCookieFromStore(cookieStore);
 
   return (
     <html lang={locale} dir={dir} className={`${sora.variable} ${roboto.variable}`} suppressHydrationWarning>
@@ -47,7 +49,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script src="/scripts/platform-document-init.js" />
       </head>
       <body className="font-sans antialiased">
-        <AppProviders locale={locale} messages={messages}>
+        <AppProviders locale={locale} messages={messages} initialTheme={initialTheme}>
           <LanguageCookieSync serverLocale={locale} />
           <ShellLayoutClient initialSidebarCollapsed={initialSidebarCollapsed}>
             {children}

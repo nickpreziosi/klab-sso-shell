@@ -19,10 +19,6 @@
     } catch (e) {}
   }
 
-  function isLangCode(value) {
-    return typeof value === "string" && /^[a-z]{2}$/.test(value);
-  }
-
   var platformLangs = { en: 1, es: 1, pt: 1, ar: 1 };
 
   function resolvePlatformLang(value) {
@@ -42,9 +38,8 @@
       var nav = (navigator.language || "en").slice(0, 2).toLowerCase();
       lang = resolvePlatformLang(nav) || "en";
     }
-    var rtlLangs = { ar: 1, he: 1, fa: 1, ur: 1 };
     document.documentElement.setAttribute("lang", lang);
-    document.documentElement.setAttribute("dir", rtlLangs[lang] ? "rtl" : "ltr");
+    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
     writeLocalStorage("klab-language", lang);
   } catch (e) {}
 

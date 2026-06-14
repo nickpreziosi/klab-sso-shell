@@ -13,7 +13,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@k-lab/components": "^0.8.0",
+    "@k-lab/components": "^0.8.1",
     "firebase": "^12.12.1",
     "firebase-admin": "^13.10.0",
     "lucide-react": "^0.553.0",
