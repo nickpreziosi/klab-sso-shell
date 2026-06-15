@@ -226,7 +226,7 @@ export const APPS: ShellAppConfig[] = [
     name: "K Leads",
     logo: KLeadsLogo,
     showBrandLogo: true,
-    logoSizeClass: "h-[2.125rem] w-auto max-w-[155px]",
+    logoSizeClass: "h-[1.625rem] w-auto max-w-[120px]",
     defaultSegment: "",
     description:
       "Lead generation that drives higher prospect conversion, maximizes commercial efficiency, and accelerates growth.",

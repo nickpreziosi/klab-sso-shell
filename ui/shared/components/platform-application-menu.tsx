@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   ApplicationMenuDropdown,
   ApplicationMenuDrawer,
+  cn,
   type AppSwitcherItem,
 } from "@k-lab/components";
 import { buildShellApplicationMenuItems, type ShellAppId } from "@/config/platform/application-menu";
@@ -20,6 +21,35 @@ type PlatformApplicationMenuProps = {
   fallback?: React.ReactNode;
 };
 
+const compactTriggerFocusClassName =
+  "outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar focus-visible:!rounded-app-radius";
+
+/** Collapsed sidebar trigger only — dropdown items keep product logos. */
+const PlatformApplicationMenuKLabTrigger = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>(function PlatformApplicationMenuKLabTrigger({ className, ...props }, ref) {
+  return (
+    <button
+      ref={ref}
+      type="button"
+      className={cn(
+        "flex w-full items-center justify-start rounded-app-radius transition-colors",
+        compactTriggerFocusClassName,
+        "h-14 ps-0 pe-0",
+        className,
+      )}
+      {...props}
+    >
+      <div className="relative flex w-full min-w-0 items-center justify-start">
+        <div className="relative flex h-14 w-9 shrink-0 items-center overflow-hidden">
+          {buildKLabCollapsedMenuIcon()}
+        </div>
+      </div>
+    </button>
+  );
+});
+
 function resolveMenuCurrentAppId(
   apps: AppSwitcherItem[],
   currentAppId: ShellAppId,
@@ -28,20 +58,6 @@ function resolveMenuCurrentAppId(
     return currentAppId;
   }
   return (apps[0]?.id as ShellAppId | undefined) ?? currentAppId;
-}
-
-/** ApplicationMenu uses `icon` at 9×9 in collapsed+compact mode — swap to K Lab icon. */
-function resolveMenuAppsForDisplay(
-  apps: AppSwitcherItem[],
-  currentAppId: string,
-  collapsed: boolean,
-  logoContainerCollapsed: boolean,
-  compactIcon: React.ReactNode,
-): AppSwitcherItem[] {
-  if (!collapsed || !logoContainerCollapsed) return apps;
-  return apps.map((app) =>
-    app.id === currentAppId ? { ...app, icon: compactIcon } : app,
-  );
 }
 
 function useAccessibleApplicationMenuItems(): AppSwitcherItem[] {
@@ -68,24 +84,18 @@ export function PlatformApplicationMenuDropdown({
   fallback = null,
 }: PlatformApplicationMenuProps) {
   const apps = useAccessibleApplicationMenuItems();
-  const compactIcon = React.useMemo(() => buildKLabCollapsedMenuIcon(), []);
 
   if (apps.length === 0) {
     return <>{fallback}</>;
   }
 
   const resolvedCurrentAppId = resolveMenuCurrentAppId(apps, currentAppId);
-  const displayApps = resolveMenuAppsForDisplay(
-    apps,
-    resolvedCurrentAppId,
-    collapsed,
-    logoContainerCollapsed,
-    compactIcon,
-  );
+  const currentApp = apps.find((app) => app.id === resolvedCurrentAppId);
+  const useKLabCompactTrigger = collapsed && logoContainerCollapsed;
 
   return (
     <ApplicationMenuDropdown
-      apps={displayApps}
+      apps={apps}
       currentAppId={resolvedCurrentAppId}
       collapsed={collapsed}
       compact={logoContainerCollapsed}
@@ -94,6 +104,13 @@ export function PlatformApplicationMenuDropdown({
       onAppSelect={onAppSelect}
       contentSide={logoContainerCollapsed ? "right" : "bottom"}
       contentAlign={logoContainerCollapsed ? "start" : "center"}
+      trigger={
+        useKLabCompactTrigger ? (
+          <PlatformApplicationMenuKLabTrigger
+            aria-label={`${currentApp?.label ?? "App"} - Switch app`}
+          />
+        ) : undefined
+      }
     />
   );
 }

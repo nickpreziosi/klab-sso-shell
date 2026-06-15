@@ -6,6 +6,9 @@ import { ThemeAwareLogo } from "@/ui/shared/components/theme-aware-logo";
 /** Wide wordmarks (taller viewBox) — match HomeDashboard sizing. */
 export const WIDE_MENU_LOGO_CLASS = "h-[2.125rem] w-auto max-w-[155px]";
 
+/** K Leads wordmark is visually larger at the same height — scale down in the menu. */
+export const KLEADS_MENU_LOGO_CLASS = "h-[1.625rem] w-auto max-w-[120px]";
+
 /** @deprecated Use WIDE_MENU_LOGO_CLASS */
 export const KBPM_MENU_LOGO_CLASS = WIDE_MENU_LOGO_CLASS;
 
@@ -37,7 +40,7 @@ const STATIC_MENU_LOGO_APP_IDS = new Set(["shell", "kbpm", "kleads", "krisk"]);
 
 const WIDE_MENU_LOGO_APP_IDS: Record<string, string> = {
   kbpm: WIDE_MENU_LOGO_CLASS,
-  kleads: WIDE_MENU_LOGO_CLASS,
+  kleads: KLEADS_MENU_LOGO_CLASS,
 };
 
 function buildStaticProductMenuIcon(appId: string, className: string) {
